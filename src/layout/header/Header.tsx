@@ -1,6 +1,6 @@
 import React from 'react';
-import HeaderMenuOption from './HeaderMenuOption';
-import styles from '../../../sass/components/layout/Header.module.scss';
+import HeaderMenuOption from './features/HeaderMenuOption';
+import styles from './Header.module.scss';
 interface HeaderProps {
   theme?: string;
 }
@@ -18,6 +18,7 @@ function Header(props: HeaderProps) {
       link: '/profile',
     },
     { label: 'Settings', link: '/settings' },
+    { label: 'Home', link: '/' },
   ];
   return (
     <header id={'header'} className={styles.header}>

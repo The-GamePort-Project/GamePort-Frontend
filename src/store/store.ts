@@ -4,6 +4,13 @@ import { persistStore } from 'redux-persist';
 
 export const store = configureStore({
   reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ['persist/PERSIST'],
+        ignoredPaths: ['user', 'theme'],
+      },
+    }),
 });
 
 export const persistor = persistStore(store);
