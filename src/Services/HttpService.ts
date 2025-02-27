@@ -71,8 +71,9 @@ class HttpService {
     return axios.get(url);
   }
 
-  static async post(url: string, data: object) {
-    return axios.post(url, data);
+  async post(url: string, data: object): any {
+    console.log(this.baseUrl);
+    return this.httpInstance.post(url, data);
   }
 
   static async put(url: string, data: object) {

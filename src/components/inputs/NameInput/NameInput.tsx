@@ -7,7 +7,7 @@ interface Props {
 function NameInput({ setState, state }: Props) {
   return (
     <input
-      className={styles.input}
+      className={`${styles.input} border p-2 rounded-md w-full bg-amber-300`}
       type="text"
       placeholder="Enter your name"
       onChange={(e) => setState(e.target.value)}

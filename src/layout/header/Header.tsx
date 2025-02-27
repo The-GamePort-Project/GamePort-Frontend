@@ -19,6 +19,7 @@ function Header(props: HeaderProps) {
     },
     { label: 'Settings', link: '/settings' },
     { label: 'Home', link: '/' },
+    { label: 'Login', link: '/login' },
   ];
   return (
     <header id={'header'} className={styles.header}>
