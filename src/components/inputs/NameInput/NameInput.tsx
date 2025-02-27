@@ -1,15 +1,17 @@
 import React from 'react';
-import styles from './NameInput.module.css';
+import styles from './NameInput.module.scss';
 interface Props {
-  nameInputState: React.Dispatch<React.SetStateAction<string>>;
+  state: string;
+  setState: React.Dispatch<React.SetStateAction<string>>;
 }
-function NameInput({ nameInputState }: Props) {
+function NameInput({ setState, state }: Props) {
   return (
     <input
       className={styles.input}
       type="text"
       placeholder="Enter your name"
-      onChange={(e) => nameInputState(e.target.value)}
+      onChange={(e) => setState(e.target.value)}
+      value={state}
     />
   );
 }
