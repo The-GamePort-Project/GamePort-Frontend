@@ -42,7 +42,8 @@ class HttpService {
         if (error.response) {
           if (error.response.status === 401) {
             console.warn('Unauthorized! Redirecting to login...');
-            window.location.href = '/login';
+            // window.location.href = '/login';
+            console.log('Unauthorized! Redirecting to login...');
           } else if (error.response.status === 500) {
             console.error('Server error. Please try again later.');
           }
@@ -72,7 +73,7 @@ class HttpService {
   }
 
   async post(url: string, data: object): any {
-    console.log(this.baseUrl);
+    console.log(data);
     return this.httpInstance.post(url, data);
   }
 
