@@ -1,18 +1,26 @@
 import React from 'react';
 import styles from './NameInput.module.scss';
+
 interface Props {
-  state: string;
-  setState: React.Dispatch<React.SetStateAction<string>>;
+  error?: string | null;
+  value: string;
+  updateFunction: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-function NameInput({ setState, state }: Props) {
+function NameInput({ updateFunction, value, error }: Props) {
   return (
-    <input
-      className={`${styles.input} border p-2 rounded-md w-full bg-amber-300`}
-      type="text"
-      placeholder="Enter your name"
-      onChange={(e) => setState(e.target.value)}
-      value={state}
-    />
+    <>
+      <div className="h-6 w-full">
+        {error && <p className="text-red-500 font-bold text-lg">{error}</p>}
+      </div>
+
+      <input
+        className={`${styles.input} border rounded-md w-full`}
+        type="text"
+        placeholder="Enter your name"
+        onChange={updateFunction}
+        value={value}
+      />
+    </>
   );
 }
 

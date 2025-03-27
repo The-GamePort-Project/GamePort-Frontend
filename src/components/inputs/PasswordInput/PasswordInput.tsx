@@ -1,19 +1,26 @@
 import React from 'react';
 import styles from './PasswordInput.module.scss';
 type Props = {
-  setState: React.Dispatch<React.SetStateAction<string>>;
-  state: string;
+  updateFunction: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value: string;
+  error?: string | null;
+  label?: string;
 };
 
-function PasswordInput({ setState, state }: Props) {
+function PasswordInput({ value, updateFunction, error }: Props) {
   return (
-    <input
-      className={styles.input}
-      type="password"
-      placeholder="Enter your password"
-      onChange={(e) => setState(e.target.value)}
-      value={state}
-    />
+    <>
+      <div className="h-6 w-full">
+        {error && <p className="text-red-500 font-bold text-lg">{error}</p>}
+      </div>
+      <input
+        className={styles.input}
+        type="password"
+        placeholder="Enter your password"
+        onChange={updateFunction}
+        value={value}
+      />
+    </>
   );
 }
 

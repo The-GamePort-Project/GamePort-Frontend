@@ -13,9 +13,9 @@ function App() {
     <>
       <Header />
       <main
-        className={`App py-6 bg-amber-100 min-h-screen
+        className={`App py-6 bg-slate-300 min-h-screen flex flex-col items-center
         sm:px-4
-        md:px-8 md:bg-red-100
+        md:px-8 
         lg:px-12
         xl:px-16`}
       >
