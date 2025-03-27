@@ -1,20 +1,16 @@
 import { ReactNode } from "react";
 import styles from "./confirmButton.module.scss";
-interface ConfirmButtonProps {
-  label: string;
-  route?: string | null;
-  onClick?: () => void;
-  disabled?: boolean;
-  type?: "button" | "submit" | "reset";
-}
+import { IBaseButtonProps } from "../../../types";
 
-function ConfirmButton({
+interface IConfirmButtonProps extends Omit<IBaseButtonProps, "route"> {
+  type?: "submit";
+}
+const ConfirmButton =({
   label,
-  route = null,
   onClick,
   disabled = false,
-  type = "button",
-}: ConfirmButtonProps): ReactNode {
+  type = "submit",
+}: IConfirmButtonProps): ReactNode  => {
   return (
     <button onClick={onClick} type={type} disabled={disabled} className={styles.button}>
       {label}
