@@ -1,8 +1,8 @@
-import axios from 'axios';
+import axios from "axios";
 
 class HttpService {
   private headers: Record<string, string> = {};
-  private baseUrl: string = '';
+  private baseUrl: string = "";
 
   httpInstance = axios.create({
     baseURL: this.baseUrl,
@@ -17,7 +17,7 @@ class HttpService {
   private setBaseUrl() {
     const baseUrl = import.meta.env.VITE_BASE_URL;
     if (!baseUrl) {
-      console.warn('WARNING: Base URL not found in .env file');
+      console.warn("WARNING: Base URL not found in .env file");
       return;
     }
     this.baseUrl = baseUrl;
@@ -27,9 +27,9 @@ class HttpService {
   private setupInterceptors() {
     this.httpInstance.interceptors.request.use(
       (config) => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         if (token) {
-          config.headers['Authorization'] = `Bearer ${token}`;
+          config.headers["Authorization"] = `Bearer ${token}`;
         }
         return config;
       },
@@ -41,11 +41,11 @@ class HttpService {
       (error) => {
         if (error.response) {
           if (error.response.status === 401) {
-            console.warn('Unauthorized! Redirecting to login...');
+            console.warn("Unauthorized! Redirecting to login...");
             // window.location.href = '/login';
-            console.log('Unauthorized! Redirecting to login...');
+            console.log("Unauthorized! Redirecting to login...");
           } else if (error.response.status === 500) {
-            console.error('Server error. Please try again later.');
+            console.error("Server error. Please try again later.");
           }
         }
         return Promise.reject(error);
@@ -54,17 +54,17 @@ class HttpService {
   }
 
   setApplicationJson() {
-    this.httpInstance.defaults.headers['Content-Type'] = 'application/json';
+    this.httpInstance.defaults.headers["Content-Type"] = "application/json";
     return this;
   }
 
   setToken(token: string) {
-    this.httpInstance.defaults.headers['Authorization'] = `Bearer ${token}`;
+    this.httpInstance.defaults.headers["Authorization"] = `Bearer ${token}`;
     return this;
   }
 
   removeToken() {
-    delete this.httpInstance.defaults.headers['Authorization'];
+    delete this.httpInstance.defaults.headers["Authorization"];
     return this;
   }
 
@@ -72,7 +72,7 @@ class HttpService {
     return axios.get(url);
   }
 
-  async post(url: string, data: object): any {
+  async post(url: string, data: object): Promise<unknown> {
     console.log(data);
     return this.httpInstance.post(url, data);
   }

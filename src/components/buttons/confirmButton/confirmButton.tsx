@@ -5,17 +5,22 @@ import { IBaseButtonProps } from "../../../types";
 interface IConfirmButtonProps extends Omit<IBaseButtonProps, "route"> {
   type?: "submit";
 }
-const ConfirmButton =({
+const ConfirmButton = ({
   label,
   onClick,
   disabled = false,
   type = "submit",
-}: IConfirmButtonProps): ReactNode  => {
+}: IConfirmButtonProps): ReactNode => {
   return (
-    <button onClick={onClick} type={type} disabled={disabled} className={styles.button}>
+    <button
+      onClick={onClick}
+      type={type}
+      disabled={disabled}
+      className={styles.button}
+    >
       {label}
     </button>
   );
-}
+};
 
 export default ConfirmButton;

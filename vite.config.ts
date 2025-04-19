@@ -11,7 +11,10 @@ export default defineConfig({
     port: 3000,
     strictPort: true,
     host: "0.0.0.0",
-    origin: "*",
+    hmr: {
+      host: "localhost",
+      port: 3000,
+    },
   },
   resolve: {
     alias: {

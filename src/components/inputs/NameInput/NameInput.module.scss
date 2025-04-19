@@ -1,7 +1,15 @@
 // $border-color, $border-radius, $padding, $width, $font-size, $margin-bottom
-@import '@styles/variables';
-@import '@styles/mixins';
+@import "@styles/variables";
+@import "@styles/mixins";
 
 .input {
-  @include input_style($border-color, $border-radius, $p-sm, 100%, "1rem", $m-sm);
+  @include input_style(
+    $border-color,
+    $border-radius,
+    $p-sm,
+    100%,
+    "1rem",
+    $m-sm,
+    "none"
+  );
 }
