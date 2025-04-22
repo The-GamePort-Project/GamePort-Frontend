@@ -1,12 +1,11 @@
 import { create } from "zustand";
-
-interface AuthState {
+export interface IAuthState {
   accessToken: string | null;
   setAccessToken: (token: string) => void;
   logout: () => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<IAuthState>((set) => ({
   accessToken: null,
   setAccessToken: (token) => set({ accessToken: token }),
   logout: () => set({ accessToken: null }),
