@@ -1,12 +1,7 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
-import Header from './layout/header/Header';
-import './App.css';
-export interface Todo {
-  id: string;
-  completed: boolean;
-  task: string;
-}
+import React from "react";
+import { Outlet } from "react-router-dom";
+import Header from "./layout/header/Header";
+import "./App.css";
 
 function App() {
   return (
