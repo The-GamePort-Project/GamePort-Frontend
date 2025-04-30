@@ -16,6 +16,7 @@ class HttpService {
 
   private setBaseUrl() {
     const baseUrl = import.meta.env.VITE_API_BASEURL;
+    console.log("Base URL:", baseUrl);
     if (!baseUrl) {
       console.warn("WARNING: Base URL not found in .env file");
       return;
