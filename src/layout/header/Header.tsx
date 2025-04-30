@@ -1,4 +1,3 @@
-import React from "react";
 import HeaderMenuOption from "./features/HeaderMenuOption";
 import { headerMenuOptions } from "./header-data";
 import styles from "./Header.module.scss";
