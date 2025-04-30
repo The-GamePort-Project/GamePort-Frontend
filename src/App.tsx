@@ -4,6 +4,17 @@ import Header from "./layout/header/Header";
 import "./App.css";
 
 function App() {
+  React.useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const accessToken = urlParams.get("accessToken");
+
+    if (accessToken) {
+      localStorage.setItem("accessToken", accessToken);
+      console.log("Access Token:", accessToken);
+    }
+  }, []);
+
+  console.log(import.meta.env.VITE_API_BASEURL);
   return (
     <>
       <Header />

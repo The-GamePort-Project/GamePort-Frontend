@@ -9,66 +9,108 @@ type InputFieldState = {
   value: string;
   error: string | null;
 };
+
 const defaultInputFieldState: InputFieldState = {
   value: "",
   error: null,
 };
+
 const LoginPage = () => {
   const navigate = useNavigate();
-  const [username, setName] = useState<InputFieldState>(defaultInputFieldState);
+
+  const [useEmail, setUseEmail] = useState(false);
+  const [identifier, setIdentifier] = useState<InputFieldState>(
+    defaultInputFieldState
+  );
   const [password, setPassword] = useState<InputFieldState>(
     defaultInputFieldState
   );
+  const [generalError, setGeneralError] = useState<string | null>(null);
+
   const handleLogin = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let invalidLogin = false;
-    if (!username.value) {
-      setName({ value: username.value, error: "Username is required" });
-      invalidLogin = true;
+    let hasError = false;
+
+    if (!identifier.value) {
+      setIdentifier({
+        value: identifier.value,
+        error: `${useEmail ? "Email" : "Username"} is required`,
+      });
+      hasError = true;
     }
     if (!password.value) {
       setPassword({ value: password.value, error: "Password is required" });
-      invalidLogin = true;
+      hasError = true;
     }
-    if (invalidLogin) {
-      return;
-    }
-    await loginAsync();
-    navigate(pageRoutes.dashboard);
-  };
-  const loginAsync = async () => {
+
+    if (hasError) return;
+
     try {
       const response = await httpService
         .setApplicationJson()
-        .post("/login", { username, password });
+        .includeCredentials()
+        .post("/auth/login", {
+          [useEmail ? "email" : "username"]: identifier.value,
+          password: password.value,
+        });
+
       console.log(response);
+      navigate(pageRoutes.dashboard);
     } catch (error) {
       console.error(error);
+      setGeneralError("Login failed. Please check your credentials.");
     }
   };
-  const onChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName({ value: e.target.value, error: null });
+
+  const handleLoginWithGoogle = () => {
+    window.location.href = "http://localhost:5053/auth/google";
   };
-  const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword({ value: e.target.value, error: null });
-  };
+
   return (
-    <form onSubmit={handleLogin}>
-      <SmallForm formTitle="Login to GamePort">
-        <Input
-          value={username.value}
-          onChange={onChangeUsername}
-          error={username.error}
-          type="text"
-        />
-        <Input
-          value={password.value}
-          onChange={onChangePassword}
-          error={password.error}
-          type="password"
-        />
-      </SmallForm>
-    </form>
+    <>
+      <form onSubmit={handleLogin}>
+        <SmallForm formTitle="Login to GamePort">
+          <div style={{ textAlign: "right", marginBottom: "0.5rem" }}>
+            <button
+              type="button"
+              onClick={() => setUseEmail(!useEmail)}
+              style={{ fontSize: "0.9rem" }}
+            >
+              {useEmail ? "Use username instead" : "Use email instead"}
+            </button>
+          </div>
+
+          <Input
+            value={identifier.value}
+            onChange={(e) =>
+              setIdentifier({ value: e.target.value, error: null })
+            }
+            error={identifier.error}
+            type={useEmail ? "email" : "text"}
+            placeholder={useEmail ? "Email" : "Username"}
+          />
+
+          <Input
+            value={password.value}
+            onChange={(e) =>
+              setPassword({ value: e.target.value, error: null })
+            }
+            error={password.error}
+            type="password"
+            placeholder="Password"
+          />
+
+          {generalError && <p style={{ color: "red" }}>{generalError}</p>}
+
+          <button type="submit">Login</button>
+        </SmallForm>
+      </form>
+
+      <div style={{ textAlign: "center", marginTop: "1rem" }}>
+        <button onClick={handleLoginWithGoogle}>Login with Google</button>
+      </div>
+    </>
   );
 };
+
 export default LoginPage;

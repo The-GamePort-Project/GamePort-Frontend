@@ -15,7 +15,7 @@ class HttpService {
   }
 
   private setBaseUrl() {
-    const baseUrl = import.meta.env.VITE_BASE_URL;
+    const baseUrl = import.meta.env.VITE_API_BASEURL;
     if (!baseUrl) {
       console.warn("WARNING: Base URL not found in .env file");
       return;
@@ -65,6 +65,11 @@ class HttpService {
 
   removeToken() {
     delete this.httpInstance.defaults.headers["Authorization"];
+    return this;
+  }
+
+  includeCredentials() {
+    this.httpInstance.defaults.withCredentials = true;
     return this;
   }
 
