@@ -54,7 +54,7 @@ const LoginPage = () => {
         [useEmail ? "email" : "username"]: identifier.value,
         password: password.value,
       });
-
+      console.log(response.data);
       const { accessToken, refreshToken } = response.data;
       setAccessToken(accessToken);
       storageService.setItem("token", accessToken);
