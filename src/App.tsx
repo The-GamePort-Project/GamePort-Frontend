@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import { storageService } from "./Services";
 import Header from "./layout/header/Header";
+import { pageRoutes } from "./models/Enums/PageRoutes";
 import "./App.css";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "./features/auth/store/useAuthStore";
@@ -30,7 +31,7 @@ function App() {
     }
     if (accessToken || refreshToken) {
       window.history.replaceState({}, document.title, window.location.pathname);
-      navigate("/dashboard");
+      navigate(pageRoutes.dashboard);
     }
   }, [navigate, setAccessToken]);
 
