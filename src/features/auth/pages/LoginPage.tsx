@@ -2,8 +2,11 @@ import { useState } from "react";
 import Input from "../../../components/inputs/Input/input";
 import SmallForm from "../../../components/formLayouts/SmallForm/SmallForm";
 import { useNavigate } from "react-router-dom";
-import httpService from "../../../Services/HttpService";
+import { httpService } from "../../../Services";
 import { pageRoutes } from "../../../models/Enums/PageRoutes";
+import { AxiosResponse } from "axios";
+import { useAuthStore } from "../store/useAuthStore";
+import { storageService } from "../../../Services";
 
 type InputFieldState = {
   value: string;
@@ -17,6 +20,7 @@ const defaultInputFieldState: InputFieldState = {
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const { setAccessToken } = useAuthStore();
 
   const [useEmail, setUseEmail] = useState(false);
   const [identifier, setIdentifier] = useState<InputFieldState>(
@@ -46,15 +50,16 @@ const LoginPage = () => {
     if (hasError) return;
 
     try {
-      const response = await httpService
-        .setApplicationJson()
-        .includeCredentials()
-        .post("/auth/login", {
-          [useEmail ? "email" : "username"]: identifier.value,
-          password: password.value,
-        });
+      const response: AxiosResponse = await httpService.post("/auth/login", {
+        [useEmail ? "email" : "username"]: identifier.value,
+        password: password.value,
+      });
 
-      console.log(response);
+      const { accessToken, refreshToken } = response.data;
+      setAccessToken(accessToken);
+      storageService.setItem("token", accessToken);
+      storageService.setCookie("refreshToken", refreshToken, 1);
+
       navigate(pageRoutes.dashboard);
     } catch (error) {
       console.error(error);

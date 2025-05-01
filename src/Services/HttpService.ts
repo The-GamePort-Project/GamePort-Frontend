@@ -1,96 +1,98 @@
-import axios from "axios";
+import axios, { AxiosError, AxiosInstance } from "axios";
+import { storageService } from "./StorageService";
+import { CustomAxiosRequestConfig } from "../types/interfaces";
 
 class HttpService {
-  private headers: Record<string, string> = {};
-  private baseUrl: string = "";
-
-  httpInstance = axios.create({
-    baseURL: this.baseUrl,
-    headers: this.headers,
-  });
+  private httpInstance: AxiosInstance;
 
   constructor() {
-    this.setBaseUrl();
-    this.setupInterceptors();
-  }
+    this.httpInstance = axios.create({
+      baseURL: import.meta.env.VITE_API_BASEURL,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    });
 
-  private setBaseUrl() {
-    const baseUrl = import.meta.env.VITE_API_BASEURL;
-    console.log("Base URL:", baseUrl);
-    if (!baseUrl) {
-      console.warn("WARNING: Base URL not found in .env file");
-      return;
-    }
-    this.baseUrl = baseUrl;
-    this.httpInstance.defaults.baseURL = baseUrl;
+    this.setupInterceptors();
   }
 
   private setupInterceptors() {
     this.httpInstance.interceptors.request.use(
       (config) => {
-        const token = localStorage.getItem("token");
-        if (token) {
+        const token = storageService.getItem("token");
+        if (token && config.headers) {
           config.headers["Authorization"] = `Bearer ${token}`;
         }
         return config;
       },
-      (error) => Promise.reject(error)
+      (error: AxiosError) => Promise.reject(error)
     );
 
     this.httpInstance.interceptors.response.use(
       (response) => response,
-      (error) => {
-        if (error.response) {
-          if (error.response.status === 401) {
-            console.warn("Unauthorized! Redirecting to login...");
-            // window.location.href = '/login';
-            console.log("Unauthorized! Redirecting to login...");
-          } else if (error.response.status === 500) {
-            console.error("Server error. Please try again later.");
-          }
+      async (error: AxiosError) => {
+        const originalRequest = error.config as CustomAxiosRequestConfig;
+        if (!originalRequest || originalRequest._retry) {
+          return Promise.reject(error);
         }
-        return Promise.reject(error);
+
+        originalRequest._retry = true;
+
+        try {
+          const refreshToken = storageService.getCookie("refreshToken");
+          if (!refreshToken) throw new Error("No refresh token found");
+
+          const res = await this.httpInstance.post("/auth/refresh", null, {
+            headers: {
+              Authorization: `Bearer ${refreshToken}`,
+            },
+          });
+
+          const { accessToken } = res.data;
+          storageService.setItem("token", accessToken);
+
+          originalRequest.headers = originalRequest.headers || {};
+          originalRequest.headers["Authorization"] = `Bearer ${accessToken}`;
+
+          return this.httpInstance(originalRequest);
+        } catch (refreshError) {
+          console.error("Token refresh failed", refreshError);
+          return Promise.reject(refreshError);
+        }
       }
     );
   }
 
-  setApplicationJson() {
-    this.httpInstance.defaults.headers["Content-Type"] = "application/json";
-    return this;
+  setAuthorization(token: string) {
+    this.httpInstance.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${token}`;
   }
 
-  setToken(token: string) {
-    this.httpInstance.defaults.headers["Authorization"] = `Bearer ${token}`;
-    return this;
+  // Basic methods
+  async get<T>(url: string) {
+    return this.httpInstance.get<T>(url);
   }
 
-  removeToken() {
-    delete this.httpInstance.defaults.headers["Authorization"];
-    return this;
+  async post<T>(
+    url: string,
+    data?: Record<string, unknown> | FormData | string
+  ) {
+    return this.httpInstance.post<T>(url, data);
   }
 
-  includeCredentials() {
-    this.httpInstance.defaults.withCredentials = true;
-    return this;
+  async put<T>(
+    url: string,
+    data?: Record<string, unknown> | FormData | string
+  ) {
+    return this.httpInstance.put<T>(url, data);
   }
 
-  static async get(url: string) {
-    return axios.get(url);
-  }
-
-  async post(url: string, data: object): Promise<unknown> {
-    console.log(data);
-    return this.httpInstance.post(url, data);
-  }
-
-  static async put(url: string, data: object) {
-    return axios.put(url, data);
-  }
-
-  static async delete(url: string) {
-    return axios.delete(url);
+  async delete<T>(url: string) {
+    return this.httpInstance.delete<T>(url);
   }
 }
 
 const httpService = new HttpService();
-export default httpService;
+export { httpService };

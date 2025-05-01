@@ -3,6 +3,7 @@ import { headerMenuOptions } from "./header-data";
 import styles from "./Header.module.scss";
 interface HeaderProps {
   theme?: string;
+  logout: () => void;
 }
 
 function Header(props: HeaderProps) {
@@ -30,6 +31,9 @@ function Header(props: HeaderProps) {
                 <HeaderMenuOption {...{ item }} />
               </li>
             ))}
+            <li>
+              <button onClick={props.logout}>Logaujt</button>
+            </li>
           </ul>
         </nav>
       </section>

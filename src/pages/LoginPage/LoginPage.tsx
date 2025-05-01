@@ -1,17 +1,17 @@
-import { useState } from 'react';
-import NameInput from '../../components/inputs/NameInput/NameInput';
-import PasswordInput from '../../components/inputs/PasswordInput/PasswordInput';
-import SmallForm from '../../components/formLayouts/SmallForm/SmallForm';
-import { useNavigate } from 'react-router-dom';
-import httpService from '../../Services/HttpService';
-import { pageRoutes } from '../../models/Enums/PageRoutes';
+import { useState } from "react";
+import NameInput from "../../components/inputs/NameInput/NameInput";
+import PasswordInput from "../../components/inputs/PasswordInput/PasswordInput";
+import SmallForm from "../../components/formLayouts/SmallForm/SmallForm";
+import { useNavigate } from "react-router-dom";
+import { httpService, saveAuthTokens } from "../../Services";
+import { pageRoutes } from "../../models/Enums/PageRoutes";
 
 type InputFieldState = {
   value: string;
   error: string | null;
 };
 const defaultInputFieldState: InputFieldState = {
-  value: '',
+  value: "",
   error: null,
 };
 function LoginPage() {
@@ -20,31 +20,38 @@ function LoginPage() {
   const [password, setPassword] = useState<InputFieldState>(
     defaultInputFieldState
   );
-  const handleLogin = (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     let invalidLogin = false;
     if (!username.value) {
-      setName({ value: username.value, error: 'Username is required' });
+      setName({ value: username.value, error: "Username is required" });
       invalidLogin = true;
     }
     if (!password.value) {
-      setPassword({ value: password.value, error: 'Password is required' });
+      setPassword({ value: password.value, error: "Password is required" });
       invalidLogin = true;
     }
     if (invalidLogin) {
       return;
     }
-    loginAsync();
+    const result = await loginAsync();
+    if (!result) {
+      setPassword({ value: password.value, error: "Invalid credentials" });
+      return;
+    }
     navigate(pageRoutes.dashboard);
   };
-  const loginAsync = async () => {
+  const loginAsync = async (): Promise<boolean> => {
     try {
-      const response = await httpService
-        .setApplicationJson()
-        .post('/login', { username, password });
-      console.log(response);
+      const response: { data: { accessToken: string; refreshToken: string } } =
+        await httpService.post("/login", { username, password });
+
+      const { accessToken, refreshToken } = response.data;
+      saveAuthTokens(accessToken, refreshToken);
+      return true;
     } catch (error) {
       console.error(error);
+      return false;
     }
   };
   const onChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
