@@ -42,6 +42,9 @@ export const gqlService = {
           id
           email
           username
+          firstname
+          lastname
+          password
         }
       }
     `,

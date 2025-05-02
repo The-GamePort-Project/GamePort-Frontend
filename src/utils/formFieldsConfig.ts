@@ -10,6 +10,12 @@ interface IFormField {
 
 export const registerFormFields: IFormField[] = [
   {
+    name: FORM_FIELDS.USERNAME,
+    errorName: FORM_FIELDS.USERNAME_ERROR,
+    type: "text",
+    placeholder: "Username",
+  },
+  {
     name: FORM_FIELDS.EMAIL,
     errorName: FORM_FIELDS.EMAIL_ERROR,
     type: "email",

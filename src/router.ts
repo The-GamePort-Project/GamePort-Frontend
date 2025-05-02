@@ -8,6 +8,7 @@ import App from "./App";
 import React from "react";
 import AdminLogin from "./features/admin/pages/adminLogin";
 import TestPage from "./pages/TestPage";
+import RegisterPage from "./features/auth/pages/RegisterPage";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
         element: React.createElement(ProfilePage),
       },
       { path: "/login", element: React.createElement(LoginPage) },
+      { path: "/register", element: React.createElement(RegisterPage) },
       {
         path: "/admin/login",
         element: React.createElement(AdminLogin),

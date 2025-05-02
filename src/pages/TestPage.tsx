@@ -17,6 +17,7 @@ const TestPage: React.FC = () => {
   const handleGetAllUsers = async () => {
     try {
       const result = await refetch();
+      console.log("Users fetched successfully:", result.data);
       alert("Users fetched successfully! Check the console for details.");
     } catch (err) {
       console.error("Error fetching users:", err);

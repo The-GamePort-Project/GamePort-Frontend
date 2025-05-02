@@ -3,11 +3,12 @@ import Input from "../../../components/inputs/Input/input";
 import LargeForm from "../../../components/formLayouts/largeForm/largeForm";
 import { ConfirmButton } from "../../../components";
 import useFormReducer from "../../../hooks/useFormReducer";
-import { FormState } from "../../../hooks/useFormReducer";
 import { registerFormFields } from "../../../utils/formFieldsConfig";
+import { FORM_FIELDS } from "../../../models/Constants/formFields";
+import { IRegisterUserData } from "../models/interfaces";
 
 interface RegisterFormProps {
-  onSubmit: (data: FormState) => void;
+  onSubmit: (data: IRegisterUserData) => Promise<void>;
   loading?: boolean;
   disabled?: boolean;
 }
@@ -16,44 +17,60 @@ const RegisterForm = ({ onSubmit, loading, disabled }: RegisterFormProps) => {
   const { setField, setError, state } = useFormReducer({
     password: "",
     repeat_password: "",
-    passwordError: null,
-    repeat_passwordError: null,
+    error_password: null,
+    error_repeat_password: null,
     email: "",
-    emailError: null,
+    error_email: null,
     username: "",
-    usernameError: null,
+    error_username: null,
     firstname: "",
-    firstnameError: null,
+    error_firstname: null,
     lastname: "",
-    lastnameError: null,
-    generalError: null,
+    error_lastname: null,
+    error_general: null,
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    setError("generalError", null);
-    setError("emailError", null);
-    setError("passwordError", null);
-    setError("repeat_passwordError", null);
+    setError(FORM_FIELDS.GENERAL_ERROR, null);
+    setError(FORM_FIELDS.EMAIL_ERROR, null);
+    setError(FORM_FIELDS.PASSWORD_ERROR, null);
+    setError(FORM_FIELDS.REPEAT_PASSWORD_ERROR, null);
 
     if (!state.email) {
-      setError("emailError", "Email is required");
+      setError(FORM_FIELDS.EMAIL_ERROR, "Email is required");
       return;
     }
 
     if (!state.password) {
-      setError("passwordError", "Password is required");
+      setError(FORM_FIELDS.PASSWORD_ERROR, "Password is required");
       return;
     }
 
     if (state.password !== state.repeat_password) {
-      setError("passwordError", "Passwords do not match");
-      setError("repeat_passwordError", "Passwords do not match");
+      setError(FORM_FIELDS.PASSWORD_ERROR, "Passwords do not match");
+      setError(FORM_FIELDS.REPEAT_PASSWORD_ERROR, "Passwords do not match");
       return;
     }
 
-    onSubmit(state);
+    const userData = {} as IRegisterUserData;
+
+    registerFormFields.forEach((field) => {
+      const key = field.name as keyof IRegisterUserData;
+      if (key in state && state[key]) {
+        userData[key] = state[key] as string;
+      }
+    });
+
+    try {
+      await onSubmit(userData as IRegisterUserData);
+    } catch {
+      setError(
+        FORM_FIELDS.GENERAL_ERROR,
+        "An error occurred during registration"
+      );
+    }
   };
 
   return (
@@ -70,7 +87,7 @@ const RegisterForm = ({ onSubmit, loading, disabled }: RegisterFormProps) => {
             onChange={(e) => setField(field.name, e.target.value)}
           />
         ))}
-        {state["generalError"] && (
+        {state[FORM_FIELDS.GENERAL_ERROR] && (
           <p style={{ color: "red" }}>{state["generalError"] as string}</p>
         )}
 
