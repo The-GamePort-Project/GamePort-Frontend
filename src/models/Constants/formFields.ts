@@ -1,0 +1,15 @@
+export const FORM_FIELDS = {
+  EMAIL: "email",
+  EMAIL_ERROR: "emailError",
+  PASSWORD: "password",
+  PASSWORD_ERROR: "passwordError",
+  REPEAT_PASSWORD: "repeat_password",
+  REPEAT_PASSWORD_ERROR: "repeat_passwordError",
+  USERNAME: "username",
+  USERNAME_ERROR: "usernameError",
+  FIRSTNAME: "firstname",
+  FIRSTNAME_ERROR: "firstnameError",
+  LASTNAME: "lastname",
+  LASTNAME_ERROR: "lastnameError",
+  GENERAL_ERROR: "generalError",
+} as const;

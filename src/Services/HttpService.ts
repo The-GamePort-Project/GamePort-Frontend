@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosInstance } from "axios";
 import { storageService } from "./StorageService";
 import { CustomAxiosRequestConfig } from "../types/interfaces";
+import { getRefreshToken } from "./AuthService";
 
 class HttpService {
   private httpInstance: AxiosInstance;
@@ -91,6 +92,22 @@ class HttpService {
 
   async delete<T>(url: string) {
     return this.httpInstance.delete<T>(url);
+  }
+
+  async refreshTokenRequest() {
+    const refreshToken = getRefreshToken();
+    if (!refreshToken) throw new Error("No refresh token found");
+
+    const refreshAxios = axios.create({
+      baseURL: import.meta.env.VITE_API_BASEURL,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${refreshToken}`,
+      },
+      withCredentials: true,
+    });
+
+    return refreshAxios.post("/auth/refresh");
   }
 }
 

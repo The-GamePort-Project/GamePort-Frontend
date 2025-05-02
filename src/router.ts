@@ -7,6 +7,7 @@ import AddGame from "./features/admin/pages/addGame";
 import App from "./App";
 import React from "react";
 import AdminLogin from "./features/admin/pages/adminLogin";
+import TestPage from "./pages/TestPage";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
         path: "",
         element: React.createElement(HomePage),
       },
+      { path: "test", element: React.createElement(TestPage) },
       {
         path: "/profile",
         element: React.createElement(ProfilePage),
