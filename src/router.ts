@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
-import HomePage from "./pages/HomePage/HomePage";
+import { pageRoutes } from "./models/Enums/PageRoutes";
+import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import LoginPage from "./features/auth/pages/LoginPage";
 import ErrorPage from "./pages/ErrorPage";
@@ -9,6 +10,8 @@ import React from "react";
 import AdminLogin from "./features/admin/pages/adminLogin";
 import TestPage from "./pages/TestPage";
 import RegisterPage from "./features/auth/pages/RegisterPage";
+import NewReviewPage from "./features/review/pages/newReviewPage";
+import GameInfo from "./features/game/pages/gameInfo";
 
 const router = createBrowserRouter([
   {
@@ -22,11 +25,11 @@ const router = createBrowserRouter([
       },
       { path: "test", element: React.createElement(TestPage) },
       {
-        path: "/profile",
+        path: pageRoutes.profile,
         element: React.createElement(ProfilePage),
       },
-      { path: "/login", element: React.createElement(LoginPage) },
-      { path: "/register", element: React.createElement(RegisterPage) },
+      { path: pageRoutes.login, element: React.createElement(LoginPage) },
+      { path: pageRoutes.register, element: React.createElement(RegisterPage) },
       {
         path: "/admin/login",
         element: React.createElement(AdminLogin),
@@ -34,6 +37,11 @@ const router = createBrowserRouter([
       {
         path: "/admin/add-game",
         element: React.createElement(AddGame),
+      },
+      { path: "/games/:slug", element: React.createElement(GameInfo) },
+      {
+        path: "/games/:slug/review",
+        element: React.createElement(NewReviewPage),
       },
     ],
   },

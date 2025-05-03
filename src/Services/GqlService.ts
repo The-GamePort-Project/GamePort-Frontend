@@ -33,18 +33,55 @@ export const gqlService = {
         }
       }
     `,
+    GET_ALL_GAMES: gql`
+      query games($data: GetGamesPaginatedInput!) {
+        games(data: $data) {
+          id
+          title
+          genres
+          releaseDate
+          developer
+          slug
+          rating
+        }
+      }
+    `,
+    GET_GAME_BY_SLUG: gql`
+      query GetGameBySlug($slug: String!) {
+        game(slug: $slug) {
+          id
+          title
+          slug
+          description
+          developer
+          publisher
+          releaseDate
+          coverImageUrl
+          trailerUrl
+          genres {
+            id
+            name
+          }
+          platforms {
+            id
+            name
+          }
+          rating
+          createdAt
+          updatedAt
+        }
+      }
+    `,
   },
 
   mutation: {
     CREATE_USER: gql`
       mutation CreateUser($data: CreateUserInput!) {
         createUser(data: $data) {
-          id
           email
           username
           firstname
           lastname
-          password
         }
       }
     `,

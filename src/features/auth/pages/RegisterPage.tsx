@@ -12,18 +12,20 @@ const RegisterPage = () => {
   );
 
   const handleRegister = async (data: IRegisterUserData) => {
-    console.log("Registering user with data:", data);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { repeat_password, ...userInput } = data;
     try {
-      const response = await createUser({
+      await createUser({
         variables: {
-          ...data,
+          data: {
+            ...userInput,
+          },
         },
       });
-      console.log("User registered successfully:", response.data);
+
       navigate(pageRoutes.login);
     } catch (error) {
       console.error("Registration error:", error);
-      // Handle error (e.g., show error message)
     }
   };
 

@@ -22,6 +22,9 @@ export const setAccessToken = (token: string) => {
   storageService.setItem("token", token);
   httpService.setAuthorization(token);
 };
+export const setRefreshToken = (token: string) => {
+  storageService.setCookie("refreshToken", token, 1);
+};
 export const getRefreshToken = () => {
   return storageService.getCookie("refreshToken");
 };

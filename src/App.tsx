@@ -1,9 +1,13 @@
 import React from "react";
+import "./App.css";
 import { Outlet } from "react-router-dom";
-import { storageService } from "./Services";
+import {
+  clearAuthTokens,
+  setAccessToken as setTokenInStorage,
+  setRefreshToken,
+} from "./Services";
 import Header from "./layout/header/Header";
 import { pageRoutes } from "./models/Enums/PageRoutes";
-import "./App.css";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "./features/auth/store/useAuthStore";
 
@@ -11,10 +15,9 @@ function App() {
   const navigate = useNavigate();
   const { setAccessToken, logout } = useAuthStore();
   const handleLogout = () => {
-    storageService.removeItem("token");
-    storageService.deleteCookie("refreshToken");
+    clearAuthTokens();
     logout();
-    navigate("/login");
+    navigate(pageRoutes.login);
   };
 
   React.useEffect(() => {
@@ -23,11 +26,11 @@ function App() {
     const refreshToken = urlParams.get("refreshToken");
 
     if (accessToken) {
-      storageService.setItem("token", accessToken);
+      setTokenInStorage(accessToken);
       setAccessToken(accessToken);
     }
     if (refreshToken) {
-      storageService.setCookie("refreshToken", refreshToken, 1);
+      setRefreshToken(refreshToken);
     }
     if (accessToken || refreshToken) {
       window.history.replaceState({}, document.title, window.location.pathname);

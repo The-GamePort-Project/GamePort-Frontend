@@ -11,6 +11,7 @@ export interface IGame {
   genres?: IGenre[] | null;
   platforms?: IPlatform[] | null;
   reviews?: IReview[] | null;
+  rating: number;
   createdAt: Date;
   updatedAt: Date;
 }

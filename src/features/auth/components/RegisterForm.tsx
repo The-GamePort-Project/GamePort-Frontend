@@ -1,5 +1,4 @@
 import Input from "../../../components/inputs/Input/input";
-
 import LargeForm from "../../../components/formLayouts/largeForm/largeForm";
 import { ConfirmButton } from "../../../components";
 import useFormReducer from "../../../hooks/useFormReducer";
@@ -32,28 +31,38 @@ const RegisterForm = ({ onSubmit, loading, disabled }: RegisterFormProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    let errors = 0;
     setError(FORM_FIELDS.GENERAL_ERROR, null);
     setError(FORM_FIELDS.EMAIL_ERROR, null);
     setError(FORM_FIELDS.PASSWORD_ERROR, null);
     setError(FORM_FIELDS.REPEAT_PASSWORD_ERROR, null);
 
+    if (!state.username) {
+      setError(FORM_FIELDS.USERNAME_ERROR, "Username is required");
+      errors++;
+    }
     if (!state.email) {
       setError(FORM_FIELDS.EMAIL_ERROR, "Email is required");
-      return;
+      errors++;
     }
-
     if (!state.password) {
       setError(FORM_FIELDS.PASSWORD_ERROR, "Password is required");
-      return;
+      errors++;
     }
 
     if (state.password !== state.repeat_password) {
+      console.log("state.password");
       setError(FORM_FIELDS.PASSWORD_ERROR, "Passwords do not match");
       setError(FORM_FIELDS.REPEAT_PASSWORD_ERROR, "Passwords do not match");
+      setTimeout(() => {
+        console.log(state[FORM_FIELDS.PASSWORD_ERROR]);
+      }, 2000);
+
+      errors++;
+    }
+    if (errors) {
       return;
     }
-
     const userData = {} as IRegisterUserData;
 
     registerFormFields.forEach((field) => {
@@ -88,7 +97,9 @@ const RegisterForm = ({ onSubmit, loading, disabled }: RegisterFormProps) => {
           />
         ))}
         {state[FORM_FIELDS.GENERAL_ERROR] && (
-          <p style={{ color: "red" }}>{state["generalError"] as string}</p>
+          <p style={{ color: "red" }}>
+            {state[FORM_FIELDS.GENERAL_ERROR] as string}
+          </p>
         )}
 
         <ConfirmButton label="Register" loading={loading} disabled={disabled} />
