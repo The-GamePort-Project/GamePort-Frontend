@@ -5,6 +5,7 @@ import LoadingSpinner from "../../../components/loadingSpinner";
 import { gqlService } from "../../../Services";
 import { useParams } from "react-router-dom";
 import { reviewQuestions } from "../models/reviewQuestions";
+import { useAuthStore } from "../../auth/store/useAuthStore";
 
 const NewReviewPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -23,10 +24,19 @@ const NewReviewPage = () => {
     },
   });
 
-  const onComplete = (answers: any[]) => {
-    const reviewData = Object.fromEntries(
-      answers.map((answer) => [answer.questionId, answer.answer])
-    );
+  const onComplete = (
+    answers: Record<string, string | number | boolean | null>
+  ) => {
+    const reviewData = {
+      gameId: data?.game.id,
+      ...answers,
+    };
+    console.log("Review data:", reviewData);
+    createReview({
+      variables: {
+        data: reviewData,
+      },
+    });
   };
   if (loading)
     return (
@@ -43,7 +53,7 @@ const NewReviewPage = () => {
       <ReviewStepper
         questions={reviewQuestions}
         onComplete={(answers) => {
-          console.log("Review submitted:", answers);
+          onComplete(answers);
         }}
       />
     </div>

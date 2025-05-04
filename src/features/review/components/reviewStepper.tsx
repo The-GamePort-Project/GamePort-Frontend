@@ -2,10 +2,13 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ConfirmButton } from "../../../components";
 import { IReviewQuestion } from "../models/reviewQuestions";
+import { a, tr } from "framer-motion/client";
 
 interface ReviewStepperProps {
   questions: IReviewQuestion[];
-  onComplete: (answers: Record<string, any>) => void;
+  onComplete: (
+    answers: Record<string, string | number | null | boolean>
+  ) => void;
 }
 
 const variants = {
@@ -20,20 +23,23 @@ export default function ReviewStepper({
 }: ReviewStepperProps) {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<
-    Record<string, number | string | null>
+    Record<string, number | string | boolean | null>
   >({});
-  const [answerValue, setAnswerValue] = useState<number | string | null>(null);
+  const [answerValue, setAnswerValue] = useState<
+    number | string | null | boolean
+  >(null);
   const [isAnswered, setIsAnswered] = useState(false);
 
-  const handleNext = () => {
-    console.log("answers", answers);
+  const handleNext = (answer?: number | string | boolean) => {
     const currentQuestion = questions[step];
-    setAnswers({ ...answers, [currentQuestion.type]: answerValue });
-    console.log("answers", answers);
-    if (step < questions.length - 1) {
+    if (answer !== null && step < questions.length - 1) {
+      console.log("answer", answer);
+      setAnswers({ ...answers, [currentQuestion.type]: answerValue });
       setStep(step + 1);
+      setAnswerValue(null);
     } else {
-      onComplete({ ...answers, [currentQuestion.type]: answerValue });
+      console.log("oncomplete", answers);
+      onComplete(answers);
     }
   };
 
@@ -66,7 +72,7 @@ export default function ReviewStepper({
                 />
                 <ConfirmButton
                   label="Confirm"
-                  onClick={handleNext}
+                  onClick={() => handleNext(answerValue as number)}
                   disabled={!answerValue}
                 />
               </div>
@@ -75,30 +81,28 @@ export default function ReviewStepper({
               <div className="flex gap-4">
                 <button
                   className={`${
-                    answerValue === "yes" ? "bg-blue-500 text-white" : ""
+                    answerValue ? "bg-blue-500 text-white" : ""
                   } p-2 rounded`}
                   onClick={() => {
-                    setAnswerValue("yes");
-                    setIsAnswered(true);
+                    setAnswerValue(true);
                   }}
                 >
                   Yes
                 </button>
                 <button
                   className={`${
-                    answerValue === "no" ? "bg-red-500 text-white" : ""
+                    !answerValue ? "bg-red-500 text-white" : ""
                   } p-2 rounded`}
                   onClick={() => {
-                    setAnswerValue("no");
-                    setIsAnswered(true);
+                    setAnswerValue(false);
                   }}
                 >
                   No
                 </button>
                 <ConfirmButton
                   label="Confirm"
-                  onClick={handleNext}
-                  disabled={!answerValue}
+                  onClick={() => handleNext(answerValue as boolean)}
+                  disabled={answerValue === null}
                 />
               </div>
             )}
@@ -109,13 +113,31 @@ export default function ReviewStepper({
                   placeholder="Your thoughts..."
                   onChange={(e) => setAnswerValue(e.target.value)}
                   rows={4}
-                  value={answerValue as string}
+                  value={(answerValue as string) ?? ""}
                 />
                 <ConfirmButton
                   label="Confirm"
-                  onClick={handleNext}
+                  onClick={() => handleNext(answerValue as string)}
                   disabled={!answerValue}
                 />
+              </div>
+            )}
+            {current.type === "confirm" && (
+              <div className="flex gap-4">
+                <button
+                  className="bg-green-500 text-white p-2 rounded"
+                  onClick={() => handleNext()}
+                >
+                  Confirm
+                </button>
+                <button
+                  className="bg-red-500 text-white p-2 rounded"
+                  onClick={() => {
+                    setAnswerValue(false);
+                  }}
+                >
+                  Cancel
+                </button>
               </div>
             )}
           </div>
