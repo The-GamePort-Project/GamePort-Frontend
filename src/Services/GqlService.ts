@@ -38,7 +38,9 @@ export const gqlService = {
         games(data: $data) {
           id
           title
-          genres
+          genres {
+            name
+          }
           releaseDate
           developer
           slug
@@ -47,28 +49,33 @@ export const gqlService = {
       }
     `,
     GET_GAME_BY_SLUG: gql`
-      query GetGameBySlug($slug: String!) {
-        game(slug: $slug) {
+      query game($data: GetGameInput!) {
+        game(data: $data) {
           id
           title
-          slug
-          description
-          developer
-          publisher
-          releaseDate
-          coverImageUrl
-          trailerUrl
           genres {
-            id
             name
           }
-          platforms {
-            id
+          releaseDate
+          developer
+          publisher
+          slug
+          rating
+          description
+          coverImageUrl
+        }
+      }
+    `,
+    GET_GAME_BY_SLUG_FOR_REVIEW: gql`
+      query game($data: GetGameInput!) {
+        game(data: $data) {
+          id
+          title
+          genres {
             name
           }
           rating
-          createdAt
-          updatedAt
+          coverImageUrl
         }
       }
     `,
@@ -82,6 +89,13 @@ export const gqlService = {
           username
           firstname
           lastname
+        }
+      }
+    `,
+    CREATE_REVIEW: gql`
+      mutation CreateReview($data: CreateReviewInput!) {
+        createReview(data: $data) {
+          id
         }
       }
     `,

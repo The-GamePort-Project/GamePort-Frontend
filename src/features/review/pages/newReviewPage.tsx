@@ -1,29 +1,47 @@
 import ReviewStepper from "../components/reviewStepper";
+import React from "react";
+import { useQuery, useMutation } from "@apollo/client";
+import LoadingSpinner from "../../../components/loadingSpinner";
+import { gqlService } from "../../../Services";
+import { useParams } from "react-router-dom";
+import { reviewQuestions } from "../models/reviewQuestions";
 
 const NewReviewPage = () => {
-  const questions: {
-    id: string;
-    question: string;
-    type: "rating" | "yesno" | "text";
-  }[] = [
+  const { slug } = useParams<{ slug: string }>();
+  const { data, loading, error } = useQuery(
+    gqlService.query.GET_GAME_BY_SLUG_FOR_REVIEW,
     {
-      id: "overallRating",
-      question: "How would you rate the game overall?",
-      type: "rating",
+      variables: { data: { slug } },
+    }
+  );
+  const [createReview] = useMutation(gqlService.mutation.CREATE_REVIEW, {
+    onCompleted: (data) => {
+      console.log("Review created successfully:", data);
     },
-    {
-      id: "recommend",
-      question: "Would you recommend this game?",
-      type: "yesno",
+    onError: (error) => {
+      console.error("Error creating review:", error);
     },
-    { id: "comment", question: "What did you like or dislike?", type: "text" },
-  ];
+  });
+
+  const onComplete = (answers: any[]) => {
+    const reviewData = Object.fromEntries(
+      answers.map((answer) => [answer.questionId, answer.answer])
+    );
+  };
+  if (loading)
+    return (
+      <LoadingSpinner
+        loading={loading}
+        error={false}
+        loadingMessage="Getting review ready..."
+      />
+    );
 
   return (
-    <div>
+    <div className="md:w-[80%] lg:w-[50%] w-[90%]">
       <h1 className="text-2xl font-bold mb-4">New Review</h1>
       <ReviewStepper
-        questions={questions}
+        questions={reviewQuestions}
         onComplete={(answers) => {
           console.log("Review submitted:", answers);
         }}

@@ -1,14 +1,10 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
-interface Question {
-  id: string;
-  question: string;
-  type: "rating" | "yesno" | "text";
-}
+import { ConfirmButton } from "../../../components";
+import { IReviewQuestion } from "../models/reviewQuestions";
 
 interface ReviewStepperProps {
-  questions: Question[];
+  questions: IReviewQuestion[];
   onComplete: (answers: Record<string, any>) => void;
 }
 
@@ -23,16 +19,21 @@ export default function ReviewStepper({
   onComplete,
 }: ReviewStepperProps) {
   const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, any>>({});
+  const [answers, setAnswers] = useState<
+    Record<string, number | string | null>
+  >({});
+  const [answerValue, setAnswerValue] = useState<number | string | null>(null);
+  const [isAnswered, setIsAnswered] = useState(false);
 
-  const handleNext = (value: any) => {
+  const handleNext = () => {
+    console.log("answers", answers);
     const currentQuestion = questions[step];
-    setAnswers({ ...answers, [currentQuestion.id]: value });
-
+    setAnswers({ ...answers, [currentQuestion.type]: answerValue });
+    console.log("answers", answers);
     if (step < questions.length - 1) {
       setStep(step + 1);
     } else {
-      onComplete({ ...answers, [currentQuestion.id]: value });
+      onComplete({ ...answers, [currentQuestion.type]: answerValue });
     }
   };
 
@@ -42,7 +43,7 @@ export default function ReviewStepper({
     <div className="relative w-full h-72 mx-auto overflow-hidden">
       <AnimatePresence initial={false} mode="wait">
         <motion.div
-          key={current.id}
+          key={current.type}
           variants={variants}
           initial="enter"
           animate="center"
@@ -53,41 +54,68 @@ export default function ReviewStepper({
           <h2 className="text-xl font-semibold">{current.question}</h2>
           <div className="mt-4">
             {current.type === "rating" && (
-              <input
-                type="range"
-                min={1}
-                max={10}
-                defaultValue={5}
-                className="w-full"
-                onChange={(e) => handleNext(parseInt(e.target.value))}
-              />
+              <div className="flex gap-4">
+                <h3>{answerValue}</h3>
+                <input
+                  type="range"
+                  min={1}
+                  max={10}
+                  className="w-full"
+                  onChange={(e) => setAnswerValue(Number(e.target.value))}
+                  value={(answerValue as number) ?? 5}
+                />
+                <ConfirmButton
+                  label="Confirm"
+                  onClick={handleNext}
+                  disabled={!answerValue}
+                />
+              </div>
             )}
-            {current.type === "yesno" && (
+            {current.type === "recommend" && (
               <div className="flex gap-4">
                 <button
-                  onClick={() => handleNext(true)}
-                  className="bg-green-500 text-white px-4 py-2 rounded"
+                  className={`${
+                    answerValue === "yes" ? "bg-blue-500 text-white" : ""
+                  } p-2 rounded`}
+                  onClick={() => {
+                    setAnswerValue("yes");
+                    setIsAnswered(true);
+                  }}
                 >
                   Yes
                 </button>
                 <button
-                  onClick={() => handleNext(false)}
-                  className="bg-red-500 text-white px-4 py-2 rounded"
+                  className={`${
+                    answerValue === "no" ? "bg-red-500 text-white" : ""
+                  } p-2 rounded`}
+                  onClick={() => {
+                    setAnswerValue("no");
+                    setIsAnswered(true);
+                  }}
                 >
                   No
                 </button>
+                <ConfirmButton
+                  label="Confirm"
+                  onClick={handleNext}
+                  disabled={!answerValue}
+                />
               </div>
             )}
-            {current.type === "text" && (
+            {current.type === "comment" && (
               <div>
                 <textarea
-                  onBlur={(e) => handleNext(e.target.value)}
                   className="w-full border p-2 rounded"
                   placeholder="Your thoughts..."
+                  onChange={(e) => setAnswerValue(e.target.value)}
+                  rows={4}
+                  value={answerValue as string}
                 />
-                <p className="text-sm mt-2 text-gray-500">
-                  Click outside the box to continue
-                </p>
+                <ConfirmButton
+                  label="Confirm"
+                  onClick={handleNext}
+                  disabled={!answerValue}
+                />
               </div>
             )}
           </div>

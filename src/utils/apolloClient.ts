@@ -40,6 +40,8 @@ const errorLink = onError(
       ) ||
       (networkError as { statusCode?: number })?.statusCode === 401
     ) {
+      if (graphQLErrors)
+        graphQLErrors.map(({ message }) => console.log(message));
       const refreshToken = getRefreshToken();
       if (!refreshToken) {
         clearAccessToken();

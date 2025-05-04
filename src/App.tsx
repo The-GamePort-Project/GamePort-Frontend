@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.css";
 import { Outlet } from "react-router-dom";
 import {
   clearAuthTokens,
@@ -8,6 +7,7 @@ import {
 } from "./Services";
 import Header from "./layout/header/Header";
 import { pageRoutes } from "./models/Enums/PageRoutes";
+
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "./features/auth/store/useAuthStore";
 
