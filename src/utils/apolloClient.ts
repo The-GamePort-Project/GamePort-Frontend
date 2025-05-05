@@ -15,8 +15,7 @@ import {
   httpService,
   logout,
 } from "../Services";
-import { pageRoutes } from "../models/Enums/PageRoutes";
-
+import { pageRoutes } from "../models/Constants/PageRoutes";
 const httpLink = createHttpLink({
   uri: import.meta.env.VITE_GRAPHQL_URI,
   credentials: "include",
@@ -55,6 +54,7 @@ const errorLink = onError(
           .then((data) => {
             console.log("Refresh token response:", data);
             if (data?.accessToken) {
+              console.log("New access token:", data.accessToken.length);
               setAccessToken(data.accessToken);
               operation.setContext(({ headers = {} }) => ({
                 headers: {
@@ -67,6 +67,7 @@ const errorLink = onError(
                 error: observer.error.bind(observer),
                 complete: observer.complete.bind(observer),
               };
+
               forward(operation).subscribe(subscriber);
             } else {
               console.error("No access token in refresh response");

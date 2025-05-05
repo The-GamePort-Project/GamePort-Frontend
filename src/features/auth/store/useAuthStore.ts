@@ -1,21 +1,27 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import { storageService } from "../../../Services";
 export interface IAuthState {
-  accessToken: string | null;
-  setAccessToken: (token: string) => void;
   isLoggedIn: boolean;
+  login: (token: string) => void;
   logout: () => void;
 }
-
-export const useAuthStore = create<IAuthState>((set) => ({
-  accessToken: localStorage.getItem("token"),
-  isLoggedIn: !!localStorage.getItem("token"),
-  setAccessToken: (token: string) => {
-    storageService.setItem("token", token);
-    set({ accessToken: token, isLoggedIn: true });
-  },
-  logout: () => {
-    localStorage.removeItem("token");
-    set({ accessToken: null, isLoggedIn: false });
-  },
-}));
+export const useAuthStore = create<IAuthState>()(
+  persist(
+    (set) => ({
+      isLoggedIn: false,
+      login: (token: string) => {
+        set({ isLoggedIn: true });
+        storageService.setItem("token", token);
+      },
+      logout: () => {
+        set({ isLoggedIn: false });
+        storageService.removeItem("token");
+        storageService.deleteCookie("refreshToken");
+      },
+    }),
+    {
+      name: "auth-store",
+    }
+  )
+);

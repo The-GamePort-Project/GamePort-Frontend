@@ -4,20 +4,20 @@ import {
   clearAuthTokens,
   setAccessToken as setTokenInStorage,
   setRefreshToken,
+  isLoggedIn,
 } from "./Services";
 import Header from "./layout/header/Header";
-import { pageRoutes } from "./models/Enums/PageRoutes";
-
-import { useNavigate } from "react-router-dom";
+import { useNavigator } from "./hooks/useNavigator";
 import { useAuthStore } from "./features/auth/store/useAuthStore";
 
 function App() {
-  const navigate = useNavigate();
-  const { setAccessToken, logout } = useAuthStore();
+  const { goToLogin, goHome } = useNavigator();
+  const { login, logout } = useAuthStore();
+
   const handleLogout = () => {
     clearAuthTokens();
     logout();
-    navigate(pageRoutes.login);
+    goToLogin();
   };
 
   React.useEffect(() => {
@@ -27,20 +27,20 @@ function App() {
 
     if (accessToken) {
       setTokenInStorage(accessToken);
-      setAccessToken(accessToken);
+      login(accessToken);
     }
     if (refreshToken) {
       setRefreshToken(refreshToken);
     }
     if (accessToken || refreshToken) {
       window.history.replaceState({}, document.title, window.location.pathname);
-      navigate(pageRoutes.dashboard);
+      goHome();
     }
-  }, [navigate, setAccessToken]);
+  }, [login, goHome]);
 
   return (
     <>
-      <Header logout={handleLogout} />
+      <Header logout={handleLogout} isLoggedIn={isLoggedIn()} />
       <main
         className={`App py-6 bg-slate-300 min-h-screen flex flex-col items-center
         sm:px-4

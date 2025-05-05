@@ -4,6 +4,7 @@ import styles from "./Header.module.scss";
 interface HeaderProps {
   theme?: string;
   logout: () => void;
+  isLoggedIn?: boolean;
 }
 
 function Header(props: HeaderProps) {
@@ -23,17 +24,25 @@ function Header(props: HeaderProps) {
           <ul
             className={`flex
           sm:flex-col 
-          md:flex-row md:ejustify-around 
+          md:flex-row md:justify-around 
             `}
           >
-            {headerMenuOptions.map((item, index) => (
-              <li key={index} id={`header-menu-option-${index}`}>
-                <HeaderMenuOption {...{ item }} />
+            {headerMenuOptions
+              .filter((item) => {
+                if (item.needsAuth) return props.isLoggedIn;
+                if (item.hideWhenLoggedIn) return !props.isLoggedIn;
+                return true;
+              })
+              .map((item, index) => (
+                <li key={index}>
+                  <HeaderMenuOption {...{ item }} />
+                </li>
+              ))}
+            {props.isLoggedIn && (
+              <li>
+                <button onClick={props.logout}>Logout</button>
               </li>
-            ))}
-            <li>
-              <button onClick={props.logout}>Logaujt</button>
-            </li>
+            )}
           </ul>
         </nav>
       </section>

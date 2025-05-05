@@ -66,6 +66,20 @@ export const gqlService = {
         }
       }
     `,
+    GET_ALL_REVIEWS: gql`
+      query getAllReviews {
+        getAllReviews {
+          id
+          rating
+          game {
+            slug
+          }
+          user {
+            username
+          }
+        }
+      }
+    `,
     GET_GAME_BY_SLUG_FOR_REVIEW: gql`
       query game($data: GetGameInput!) {
         game(data: $data) {

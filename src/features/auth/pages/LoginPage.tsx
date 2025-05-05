@@ -3,7 +3,7 @@ import Input from "../../../components/inputs/Input/input";
 import SmallForm from "../../../components/formLayouts/SmallForm/SmallForm";
 import { useNavigate } from "react-router-dom";
 import { httpService } from "../../../Services";
-import { pageRoutes } from "../../../models/Enums/PageRoutes";
+import { pageRoutes } from "../../../models/Constants/PageRoutes";
 import { AxiosResponse } from "axios";
 import { useAuthStore } from "../store/useAuthStore";
 import { storageService } from "../../../Services";
@@ -20,7 +20,7 @@ const defaultInputFieldState: InputFieldState = {
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const { setAccessToken } = useAuthStore();
+  const { login } = useAuthStore();
 
   const [useEmail, setUseEmail] = useState(false);
   const [identifier, setIdentifier] = useState<InputFieldState>(
@@ -54,9 +54,8 @@ const LoginPage = () => {
         [useEmail ? "email" : "username"]: identifier.value,
         password: password.value,
       });
-      console.log(response.data);
       const { accessToken, refreshToken } = response.data;
-      setAccessToken(accessToken);
+      login(accessToken);
       storageService.setItem("token", accessToken);
       storageService.setCookie("refreshToken", refreshToken, 1);
 

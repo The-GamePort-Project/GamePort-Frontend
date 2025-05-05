@@ -3,7 +3,7 @@ import RegisterForm from "../components/RegisterForm";
 import { useMutation } from "@apollo/client";
 import { IRegisterUserData } from "../models/interfaces";
 import { gqlService } from "../../../Services";
-import { pageRoutes } from "../../../models/Enums/PageRoutes";
+import { pageRoutes } from "../../../models/Constants/PageRoutes";
 
 const RegisterPage = () => {
   const navigate = useNavigate();

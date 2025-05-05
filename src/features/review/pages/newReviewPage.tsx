@@ -1,11 +1,9 @@
 import ReviewStepper from "../components/reviewStepper";
-import React from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import LoadingSpinner from "../../../components/loadingSpinner";
 import { gqlService } from "../../../Services";
 import { useParams } from "react-router-dom";
 import { reviewQuestions } from "../models/reviewQuestions";
-import { useAuthStore } from "../../auth/store/useAuthStore";
 
 const NewReviewPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -31,7 +29,6 @@ const NewReviewPage = () => {
       gameId: data?.game.id,
       ...answers,
     };
-    console.log("Review data:", reviewData);
     createReview({
       variables: {
         data: reviewData,
