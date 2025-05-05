@@ -1,6 +1,8 @@
 import HeaderMenuOption from "./features/HeaderMenuOption";
 import { headerMenuOptions } from "./header-data";
 import styles from "./Header.module.scss";
+import InfoModal from "../../components/modals/infoModal/infoModal";
+import { useState } from "react";
 interface HeaderProps {
   theme?: string;
   logout: () => void;
@@ -8,45 +10,55 @@ interface HeaderProps {
 }
 
 function Header(props: HeaderProps) {
-  if (props.theme) {
-    console.log("hey");
-  }
-
+  const [isOpen, setIsOpen] = useState(false);
+  const openModal = () => {
+    setIsOpen(true);
+  };
   return (
-    <header id={"header"} className={styles.header}>
-      <section id={"left-section-icon"}>
-        <div>
-          <span className="material-symbols-outlined">stat_minus_3</span>
-        </div>
-      </section>
-      <section id={"middle-section-navigation"} className={styles.headerMenu}>
-        <nav>
-          <ul
-            className={`flex
+    <>
+      <header id={"header"} className={styles.header}>
+        <section id={"left-section-icon"}>
+          <div>
+            <span className="material-symbols-outlined">stat_minus_3</span>
+          </div>
+        </section>
+        <section id={"middle-section-navigation"} className={styles.headerMenu}>
+          <nav>
+            <ul
+              className={`flex
           sm:flex-col 
           md:flex-row md:justify-around 
             `}
-          >
-            {headerMenuOptions
-              .filter((item) => {
-                if (item.needsAuth) return props.isLoggedIn;
-                if (item.hideWhenLoggedIn) return !props.isLoggedIn;
-                return true;
-              })
-              .map((item, index) => (
-                <li key={index}>
-                  <HeaderMenuOption {...{ item }} />
+            >
+              {headerMenuOptions
+                .filter((item) => {
+                  if (item.needsAuth) return props.isLoggedIn;
+                  if (item.hideWhenLoggedIn) return !props.isLoggedIn;
+                  return true;
+                })
+                .map((item, index) => (
+                  <li key={index}>
+                    <HeaderMenuOption
+                      {...{ item }}
+                      onClickDisabled={openModal}
+                    />
+                  </li>
+                ))}
+              {props.isLoggedIn && (
+                <li>
+                  <button onClick={props.logout}>Logout</button>
                 </li>
-              ))}
-            {props.isLoggedIn && (
-              <li>
-                <button onClick={props.logout}>Logout</button>
-              </li>
-            )}
-          </ul>
-        </nav>
-      </section>
-    </header>
+              )}
+            </ul>
+          </nav>
+        </section>
+      </header>
+      <InfoModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        title={"Feature not implemented yet"}
+      ></InfoModal>
+    </>
   );
 }
 export default Header;

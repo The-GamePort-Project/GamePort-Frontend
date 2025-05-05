@@ -1,12 +1,11 @@
-import { useNavigate } from "react-router-dom";
 import RegisterForm from "../components/RegisterForm";
 import { useMutation } from "@apollo/client";
 import { IRegisterUserData } from "../models/interfaces";
 import { gqlService } from "../../../Services";
-import { pageRoutes } from "../../../models/Constants/PageRoutes";
+import { useNavigator } from "../../../hooks/useNavigator";
 
 const RegisterPage = () => {
-  const navigate = useNavigate();
+  const { goToLogin } = useNavigator();
   const [createUser, { loading }] = useMutation(
     gqlService.mutation.CREATE_USER
   );
@@ -23,7 +22,7 @@ const RegisterPage = () => {
         },
       });
 
-      navigate(pageRoutes.login);
+      goToLogin();
     } catch (error) {
       console.error("Registration error:", error);
     }

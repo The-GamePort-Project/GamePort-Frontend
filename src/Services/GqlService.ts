@@ -38,6 +38,7 @@ export const gqlService = {
         games(data: $data) {
           id
           title
+          trailerUrl
           genres {
             name
           }

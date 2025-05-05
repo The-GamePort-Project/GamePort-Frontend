@@ -2,7 +2,6 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ConfirmButton } from "../../../components";
 import { IReviewQuestion } from "../models/reviewQuestions";
-import { a, tr } from "framer-motion/client";
 
 interface ReviewStepperProps {
   questions: IReviewQuestion[];
@@ -28,7 +27,6 @@ export default function ReviewStepper({
   const [answerValue, setAnswerValue] = useState<
     number | string | null | boolean
   >(null);
-  const [isAnswered, setIsAnswered] = useState(false);
 
   const handleNext = (answer?: number | string | boolean) => {
     const currentQuestion = questions[step];

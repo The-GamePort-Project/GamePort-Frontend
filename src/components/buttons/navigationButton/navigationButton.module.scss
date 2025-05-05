@@ -1,0 +1,14 @@
+@import "@styles/variables";
+@import "@styles/mixins";
+
+.button {
+  @include button-style($secondary-color, white, $p-sm);
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  span {
+    font-size: $p-lg;
+    font-weight: 700;
+  }
+  min-width: 100px;
+}

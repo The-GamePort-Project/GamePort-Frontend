@@ -3,23 +3,26 @@ interface HeaderMenuOption {
   link: string;
   needsAuth?: boolean;
   hideWhenLoggedIn?: boolean;
+  disabled: boolean;
 }
 
 export const headerMenuOptions: HeaderMenuOption[] = [
+  { label: "Settings", link: "/settings", needsAuth: true, disabled: true },
+  { label: "Home", link: "/", needsAuth: false, disabled: false },
   {
-    label: "Profile",
-    link: "/profile",
-    needsAuth: true,
-  },
-  { label: "Settings", link: "/settings", needsAuth: true },
-  { label: "Home", link: "/", needsAuth: false },
-  { label: "Login", link: "/login", needsAuth: false, hideWhenLoggedIn: true },
-  {
-    label: "Register",
-    link: "/register",
+    label: "Login",
+    link: "/auth/login",
     needsAuth: false,
     hideWhenLoggedIn: true,
+    disabled: false,
   },
-  { label: "Games", link: "/games", needsAuth: false },
-  { label: "My Profile", link: "/my-profile", needsAuth: true },
+  {
+    label: "Register",
+    link: "/auth/register",
+    needsAuth: false,
+    hideWhenLoggedIn: true,
+    disabled: false,
+  },
+  { label: "Games", link: "/games", needsAuth: false, disabled: false },
+  { label: "My Profile", link: "/my-profile", needsAuth: true, disabled: true },
 ];

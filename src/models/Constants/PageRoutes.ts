@@ -2,7 +2,7 @@ export const pageRoutes = {
   dashboard: "/",
   error: "error",
   settings: "/settings",
-
+  login: "auth/login",
   review: "/review",
   my_profile: "/users/me",
   games: (slug?: string) => `/games/${slug}`,

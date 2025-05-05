@@ -1,6 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
 import { routerPaths } from "./models/Constants/PageRoutes";
-import HomePage from "./pages/HomePage";
 import LoginPage from "./features/auth/pages/LoginPage";
 import ErrorPage from "./pages/ErrorPage";
 import AddGame from "./features/admin/pages/addGame";
@@ -14,6 +13,7 @@ import NewReviewPage from "./features/review/pages/newReviewPage";
 import GameInfo from "./features/game/pages/gameInfo";
 import Auth from "./features/auth/Auth";
 import Users from "./features/user/Users";
+import Home from "./features/dashboard/Home";
 
 const router = createBrowserRouter([
   {
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: React.createElement(HomePage),
+        element: React.createElement(Home),
       },
       { path: "test", element: React.createElement(TestPage) },
       {

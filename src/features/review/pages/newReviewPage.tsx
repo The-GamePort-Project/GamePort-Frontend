@@ -7,7 +7,7 @@ import { reviewQuestions } from "../models/reviewQuestions";
 
 const NewReviewPage = () => {
   const { slug } = useParams<{ slug: string }>();
-  const { data, loading, error } = useQuery(
+  const { data, loading } = useQuery(
     gqlService.query.GET_GAME_BY_SLUG_FOR_REVIEW,
     {
       variables: { data: { slug } },

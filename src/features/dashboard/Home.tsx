@@ -1,28 +1,18 @@
 "use server";
 import { useQuery } from "@apollo/client";
-import { gqlService } from "../Services";
-import { IGame, IReview } from "../features/game/models/interfaces";
-import GameCard from "../features/game/components/gameCard";
-import LoadingSpinner from "../components/loadingSpinner";
-import { useNavigator } from "../hooks/useNavigator";
-export default function HomePage() {
+import { gqlService } from "../../Services";
+import { IGame, IReview } from "../game/models/interfaces";
+import GameCard from "../game/components/gameCard/gameCard";
+import LoadingSpinner from "../../components/loadingSpinner";
+import { useNavigator } from "../../hooks/useNavigator";
+import { useGetAllGames } from "../../hooks/useApolloQuery";
+export default function Home() {
   const { goToGame } = useNavigator();
-  const {
-    loading: gamesLoading,
-    error: gamesError,
-    data: gamesData,
-  } = useQuery(gqlService.query.GET_ALL_GAMES, {
-    variables: {
-      data: {
-        skip: 0,
-        take: 10,
-      },
-    },
-  });
+  const { loading: gamesLoading, data: gamesData } = useGetAllGames();
 
   const {
     loading: reviewsLoading,
-    error: reviewsError,
+    // error: reviewsError,
     data: reviewsData,
   } = useQuery(gqlService.query.GET_ALL_REVIEWS);
   if (gamesLoading || reviewsLoading) {
