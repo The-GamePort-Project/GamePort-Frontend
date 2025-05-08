@@ -7,6 +7,7 @@ import { pageRoutes } from "../../../models/Constants/PageRoutes";
 import { AxiosResponse } from "axios";
 import { useAuthStore } from "../store/useAuthStore";
 import { storageService } from "../../../Services";
+import { ConfirmButton } from "../../../components";
 
 type InputFieldState = {
   value: string;
@@ -78,7 +79,7 @@ const LoginPage = () => {
             <button
               type="button"
               onClick={() => setUseEmail(!useEmail)}
-              style={{ fontSize: "0.9rem" }}
+              style={{ fontSize: "0.9rem", cursor: "pointer" }}
             >
               {useEmail ? "Use username instead" : "Use email instead"}
             </button>
@@ -106,7 +107,11 @@ const LoginPage = () => {
 
           {generalError && <p style={{ color: "red" }}>{generalError}</p>}
 
-          <button type="submit">Login</button>
+          <ConfirmButton
+            label="Login"
+            size="medium"
+            disabled={!identifier || generalError !== null}
+          />
         </SmallForm>
       </form>
 

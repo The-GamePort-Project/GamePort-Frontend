@@ -5,7 +5,7 @@
   @include button-style($scrollbutton-color, black, $p-sm);
   font-family: "Material Symbols Outlined";
   &:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: rgb(179, 179, 179);
     color: $scrollbutton-color;
   }
   span {
@@ -13,5 +13,5 @@
     font-weight: 700;
   }
   min-width: 50px;
-  min-height: 100px;
+  min-height: 150px;
 }

@@ -94,6 +94,37 @@ export const gqlService = {
         }
       }
     `,
+    GET_HIGHEST_RATED_GAME: gql`
+      query GetHighestRatedGame {
+        getHighestRatedGame {
+          id
+          title
+          genres {
+            name
+          }
+          rating
+          coverImageUrl
+          trailerUrl
+          description
+        }
+      }
+    `,
+    SEARCH_GAMES: gql`
+      query SearchGames($data: SearchGamesInput!) {
+        searchGames(data: $data) {
+          id
+          title
+          genres {
+            name
+          }
+          releaseDate
+          developer
+          slug
+          rating
+          coverImageUrl
+        }
+      }
+    `,
   },
 
   mutation: {

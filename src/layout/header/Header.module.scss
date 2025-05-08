@@ -5,10 +5,9 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid color.$primary-color;
   min-width: 100%;
-  height: 56px;
-  background-color: color.$background-color;
+  height: 50px;
+  background-color: color.$background-color-dark;
 }
 .headerMenu {
   flex: 1;

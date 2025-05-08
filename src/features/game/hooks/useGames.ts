@@ -30,3 +30,14 @@ export const useGetGameBySlug = (slug: string) => {
     data,
   };
 };
+
+export const useGetHighestRatedGame = () => {
+  const { loading, error, data } = useQuery(
+    gqlService.query.GET_HIGHEST_RATED_GAME
+  );
+  return {
+    loading,
+    error,
+    data,
+  };
+};

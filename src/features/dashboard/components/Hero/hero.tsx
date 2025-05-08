@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "./Hero.module.scss";
-import { IGame } from "../../game/models/interfaces";
+import { IGame } from "../../../game/models/interfaces";
+import FeaturedGame from "../featuredGame/featuredGame";
 interface HeroProps {
   featuredGame: IGame;
 }
@@ -18,17 +19,20 @@ const Hero = ({ featuredGame }: HeroProps) => {
     return () => clearInterval(interval);
   }, []);
   return (
-    <div
-      className={styles.heroContainer}
-      style={{ backgroundImage: `url(${images[currentImageIndex]})` }}
-    >
-      <div className={styles.heroContent}>
-        <h1 className={styles.heroTitle}>The Gameport</h1>
-        <p className={styles.heroDescription}>
-          Discover the latest and greatest games, reviews, and more!
-        </p>
+    <>
+      <div
+        className={styles.heroContainer}
+        style={{ backgroundImage: `url(${images[currentImageIndex]})` }}
+      >
+        <div className={styles.heroContent}>
+          <h1 className={styles.heroTitle}>The Gameport</h1>
+          <p className={styles.heroDescription}>
+            Discover the latest and greatest games, reviews, and more!
+          </p>
+        </div>
       </div>
-    </div>
+      <FeaturedGame game={featuredGame} />
+    </>
   );
 };
 export default Hero;

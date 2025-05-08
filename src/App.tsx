@@ -42,10 +42,10 @@ function App() {
 
   return (
     <>
-      <div className="lg:px-4 bg-black">
+      <div className="lg:px-3 bg-black">
         <Header logout={handleLogout} isLoggedIn={isLoggedIn()} />
         <main
-          className={`App py-6 min-h-screen flex flex-col items-center ${styles.background}`}
+          className={`App min-h-screen flex flex-col items-center ${styles.background}`}
         >
           <Outlet />
         </main>

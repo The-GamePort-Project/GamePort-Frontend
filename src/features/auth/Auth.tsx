@@ -4,10 +4,13 @@ import { Navigate } from "react-router-dom";
 const Auth = () => {
   const { isLoggedIn } = useAuthStore();
   if (isLoggedIn) {
-    console.log("isLoggedIn", isLoggedIn);
     return <Navigate to="/" replace />;
   }
-  return <Outlet />;
+  return (
+    <div style={{ padding: "5%", marginTop: "20px" }}>
+      <Outlet />
+    </div>
+  );
 };
 
 export default Auth;

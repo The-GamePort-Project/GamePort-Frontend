@@ -1,9 +1,28 @@
-@import '@styles/variables';
-@import '@styles/mixins';
+@import "@styles/variables";
+@import "@styles/mixins";
 
 .button {
-    @include button-style($primary-color, black, $p-sm);
-    &:hover {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+  @include button-style(
+    $secondary-color,
+    black,
+    $p-sm,
+    $border-radius,
+    $font-family-primary
+  );
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: $success-color;
+  }
+  font-weight: 600;
+}
+
+.small {
+  padding: 0.5rem 1rem;
+}
+
+.medium {
+  padding: 0.75rem 1.5rem;
+}
+.large {
+  padding: 1rem 2rem;
 }

@@ -17,7 +17,7 @@ interface LargeFormProps {
 
 const LargeForm: React.FC<LargeFormProps> = ({ children, formTitle }) => {
   return (
-    <div className="p-4 bg-gray-200 rounded-lg shadow-md w-full">
+    <div className={styles.largeForm}>
       <h2 className="text-xl font-semibold mb-[2rem]">
         {formTitle || "Large Form"}
       </h2>

@@ -24,8 +24,8 @@ const Input = ({
 }: InputProps) => {
   return (
     <>
-      <div className="h-6 w-full">
-        {error && <p className="text-red-500 font-bold text-lg">{error}</p>}
+      <div className={styles.error}>
+        {error && <p className={styles.errorMessage}>{error}</p>}
       </div>
       <input
         name={name}

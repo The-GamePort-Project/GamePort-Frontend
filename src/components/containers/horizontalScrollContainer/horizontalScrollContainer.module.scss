@@ -1,14 +1,16 @@
 @use "../../../styles/variables/color";
 
 .wrapper {
-  min-width: 70%;
+  min-width: 99%;
   height: 100%;
+  max-width: 90vw;
   display: flex;
   justify-content: center;
   align-items: center;
   border: 1px solid black;
   border-radius: 8px;
-  background-color: color.$background-color-light;
+  background-color: color.$background-color-dark;
+  padding: 1rem;
 }
 .scrollContainer {
   display: flex;
@@ -25,6 +27,7 @@
   border-radius: 1rem;
   background-color: var(--color-light);
   box-shadow: var(--shadow-2);
+  flex-wrap: nowrap;
 }
 .scrollContainer::-webkit-scrollbar {
   display: none;

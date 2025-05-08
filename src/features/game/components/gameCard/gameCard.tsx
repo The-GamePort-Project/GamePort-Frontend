@@ -27,7 +27,7 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
       </h3>
 
       <div>
-        <GameRating rating={game.rating} />
+        <GameRating rating={game.rating} showRatingNumber={false} />
         <div className={styles.genres}>
           {(game.genres ?? []).map((genre, index) => (
             <>
