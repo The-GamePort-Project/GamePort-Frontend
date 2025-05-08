@@ -18,7 +18,7 @@ const NavigationButton = ({
       disabled={disabled}
       className={styles.button}
     >
-      <span>{label}</span>
+      <h3>{label}</h3>
     </button>
   );
 };

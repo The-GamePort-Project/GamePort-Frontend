@@ -1,0 +1,17 @@
+@import "@styles/variables";
+@import "@styles/mixins";
+
+.button {
+  @include button-style($scrollbutton-color, black, $p-sm);
+  font-family: "Material Symbols Outlined";
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: $scrollbutton-color;
+  }
+  span {
+    font-size: $p-lg;
+    font-weight: 700;
+  }
+  min-width: 50px;
+  min-height: 100px;
+}

@@ -2,13 +2,22 @@
 @import "@styles/mixins";
 
 .button {
-  @include button-style($secondary-color, white, $p-sm);
+  @include button-style(
+    transparent,
+    $primary-color,
+    $p-md,
+    $border-radius,
+    "Exo 2"
+  );
+  border-radius: 0%;
   &:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 3px 0px $text-color;
+    color: $text-color;
+    transition: all 0.2s ease;
   }
-  span {
-    font-size: $p-lg;
-    font-weight: 700;
+  h3 {
+    font-size: $p-xl;
+    font-weight: 600;
   }
   min-width: 100px;
 }

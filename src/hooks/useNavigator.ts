@@ -8,5 +8,6 @@ export const useNavigator = () => {
     goToLogin: () => navigate(pageRoutes.auth("login")),
     goHome: () => navigate("/"),
     goBack: () => navigate(-1),
+    goToGenre: (genre: string) => navigate(pageRoutes.genres(genre)),
   };
 };

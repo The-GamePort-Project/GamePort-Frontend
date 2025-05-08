@@ -1,0 +1,46 @@
+@use "../../../styles/variables/color";
+
+.heroContainer {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  padding: 2rem;
+  transition: background-image 3s ease-in;
+  border-bottom: color.$primary-color 3px solid;
+}
+.heroContent {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+}
+
+.heroTitle {
+  font-size: 7rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  font-family: "Exo 2", sans-serif;
+  color: color.$primary-color;
+}
+
+.heroDescription {
+  font-size: 1.25rem;
+}
+
+.heroContainer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+}

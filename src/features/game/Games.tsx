@@ -1,8 +1,13 @@
 import { Outlet } from "react-router-dom";
+import LoadingSpinner from "../../components/loadingSpinner";
 const Games = () => {
   return (
     <>
-      <h2>Games</h2>
+      <LoadingSpinner
+        loading={false}
+        error={false}
+        loadingMessage="Getting games ready..."
+      />
       <Outlet />
     </>
   );

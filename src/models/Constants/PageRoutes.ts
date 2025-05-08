@@ -5,6 +5,7 @@ export const pageRoutes = {
   login: "auth/login",
   review: "/review",
   my_profile: "/users/me",
+  genres: (slug?: string) => `/genres/${slug}`,
   games: (slug?: string) => `/games/${slug}`,
   new_review: (slug: string) => `/games/${slug}/review`,
   users: (username?: string) => `/users/${username}`,

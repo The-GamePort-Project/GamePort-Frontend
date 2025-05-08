@@ -52,9 +52,7 @@ const errorLink = onError(
           .refreshTokenRequest()
           .then((res) => res.data)
           .then((data) => {
-            console.log("Refresh token response:", data);
             if (data?.accessToken) {
-              console.log("New access token:", data.accessToken.length);
               setAccessToken(data.accessToken);
               operation.setContext(({ headers = {} }) => ({
                 headers: {

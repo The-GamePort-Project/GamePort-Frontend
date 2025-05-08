@@ -1,0 +1,17 @@
+@use "../../styles/variables/color";
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: color.$background-color;
+  padding: 2rem;
+  border-top: color.$primary-color 2px solid;
+}
+.footerText {
+  font-size: 1.25rem;
+  color: color.$text-color;
+  text-align: center;
+  margin-bottom: 1rem;
+}

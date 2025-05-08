@@ -9,6 +9,8 @@ import {
 import Header from "./layout/header/Header";
 import { useNavigator } from "./hooks/useNavigator";
 import { useAuthStore } from "./features/auth/store/useAuthStore";
+import Footer from "./layout/footer/footer";
+import styles from "./App.module.scss";
 
 function App() {
   const { goToLogin, goHome } = useNavigator();
@@ -40,16 +42,15 @@ function App() {
 
   return (
     <>
-      <Header logout={handleLogout} isLoggedIn={isLoggedIn()} />
-      <main
-        className={`App py-6 bg-slate-300 min-h-screen flex flex-col items-center
-        sm:px-4
-        md:px-8 
-        lg:px-12
-        xl:px-16`}
-      >
-        <Outlet />
-      </main>
+      <div className="lg:px-4 bg-black">
+        <Header logout={handleLogout} isLoggedIn={isLoggedIn()} />
+        <main
+          className={`App py-6 min-h-screen flex flex-col items-center ${styles.background}`}
+        >
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
     </>
   );
 }

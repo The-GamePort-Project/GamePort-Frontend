@@ -1,5 +1,5 @@
 export interface IBaseButtonProps {
-  label: string;
+  label?: string;
   route?: string | null;
   onClick?: () => void;
   disabled?: boolean;
