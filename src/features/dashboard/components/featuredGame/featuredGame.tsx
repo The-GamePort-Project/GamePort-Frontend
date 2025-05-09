@@ -15,9 +15,6 @@ const FeaturedGame = ({ game }: FeaturedGameProps) => {
         {!trailerVisible ? (
           <>
             <img
-              onClick={() => {
-                setTrailerVisible(true);
-              }}
               src={game.coverImageUrl || fallbackImage}
               alt={game.title}
               className={styles.featuredGameImage}
@@ -26,9 +23,12 @@ const FeaturedGame = ({ game }: FeaturedGameProps) => {
                 e.currentTarget.onerror = null;
               }}
             ></img>
-            {/* <button onClick={() => setTrailerVisible(true)}>
+            <button
+              onClick={() => setTrailerVisible(true)}
+              className={styles.playButton}
+            >
               Play trailer
-            </button> */}
+            </button>
           </>
         ) : (
           <GameVideo

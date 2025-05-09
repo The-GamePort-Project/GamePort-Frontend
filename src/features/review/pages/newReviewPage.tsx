@@ -1,4 +1,4 @@
-import ReviewStepper from "../components/reviewStepper";
+import ReviewStepper from "../components/reviewStepper/reviewStepper";
 import { useQuery, useMutation } from "@apollo/client";
 import LoadingSpinner from "../../../components/loadingSpinner";
 import { gqlService } from "../../../Services";
@@ -35,7 +35,7 @@ const NewReviewPage = () => {
       },
     });
   };
-  if (loading)
+  if (loading) {
     return (
       <LoadingSpinner
         loading={loading}
@@ -43,10 +43,11 @@ const NewReviewPage = () => {
         loadingMessage="Getting review ready..."
       />
     );
+  }
 
   return (
-    <div className="md:w-[80%] lg:w-[50%] w-[90%]">
-      <h1 className="text-2xl font-bold mb-4">New Review</h1>
+    <div className="md:w-[80%] lg:w-[50%] w-[90%] flex flex-col items-center justify-center mx-auto mt-[10%]">
+      <h1 className="text-yellow-500">New Review for {data.game.title}</h1>
       <ReviewStepper
         questions={reviewQuestions}
         onComplete={(answers) => {

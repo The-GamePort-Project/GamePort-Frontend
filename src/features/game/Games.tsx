@@ -3,11 +3,11 @@ import LoadingSpinner from "../../components/loadingSpinner";
 const Games = () => {
   return (
     <>
-      <LoadingSpinner
+      {/* <LoadingSpinner
         loading={false}
         error={false}
         loadingMessage="Getting games ready..."
-      />
+      /> */}
       <Outlet />
     </>
   );

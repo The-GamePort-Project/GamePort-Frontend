@@ -24,6 +24,15 @@ export default function Home() {
       />
     );
   }
+  if (!gamesData || !highestRatedGameData || !reviewsData) {
+    return (
+      <LoadingSpinner
+        loading={false}
+        error={true}
+        loadingMessage="Error getting games"
+      />
+    );
+  }
   return (
     <div className="flex flex-col items-center min-w-full">
       <Hero featuredGame={highestRatedGameData.getHighestRatedGame} />

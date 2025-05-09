@@ -3,6 +3,7 @@ import { headerMenuOptions } from "./header-data";
 import styles from "./Header.module.scss";
 import InfoModal from "../../components/modals/infoModal/infoModal";
 import { useState } from "react";
+import { useNavigator } from "../../hooks/useNavigator";
 interface HeaderProps {
   theme?: string;
   logout: () => void;
@@ -14,12 +15,30 @@ function Header(props: HeaderProps) {
   const openModal = () => {
     setIsOpen(true);
   };
+  const { goHome } = useNavigator();
   return (
     <>
       <header id={"header"} className={styles.header}>
         <section id={"left-section-icon"}>
-          <div>
-            <span className="material-symbols-outlined">stat_minus_3</span>
+          <div
+            className="flex justify-center items-center"
+            onClick={goHome}
+            style={{ cursor: "pointer" }}
+          >
+            <img
+              style={{
+                width: "50px",
+                height: "50px",
+                marginLeft: "10px",
+              }}
+              src="gameport-main-logo.webp"
+              alt="Logo"
+              className={styles.logo}
+              onClick={() => {
+                window.location.href = "/";
+              }}
+            />
+            The Gameport
           </div>
         </section>
         <section id={"middle-section-navigation"} className={styles.headerMenu}>

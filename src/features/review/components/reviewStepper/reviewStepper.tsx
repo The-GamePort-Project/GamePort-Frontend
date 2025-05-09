@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ConfirmButton } from "../../../components";
-import { IReviewQuestion } from "../models/reviewQuestions";
+import { ConfirmButton } from "../../../../components";
+import { IReviewQuestion } from "../../models/reviewQuestions";
+import ScoreInput from "../../../../components/inputs/scoreInput/scoreInput";
+import styles from "./reviewStepper.module.scss";
 
 interface ReviewStepperProps {
   questions: IReviewQuestion[];
@@ -31,7 +33,6 @@ export default function ReviewStepper({
   const handleNext = (answer?: number | string | boolean) => {
     const currentQuestion = questions[step];
     if (answer !== null && step < questions.length - 1) {
-      console.log("answer", answer);
       setAnswers({ ...answers, [currentQuestion.type]: answerValue });
       setStep(step + 1);
       setAnswerValue(null);
@@ -44,7 +45,7 @@ export default function ReviewStepper({
   const current = questions[step];
 
   return (
-    <div className="relative w-full h-72 mx-auto overflow-hidden">
+    <div className={styles.container}>
       <AnimatePresence initial={false} mode="wait">
         <motion.div
           key={current.type}
@@ -53,24 +54,25 @@ export default function ReviewStepper({
           animate="center"
           exit="exit"
           transition={{ duration: 0.2 }}
-          className="absolute w-full h-full bg-white p-6 rounded-2xl shadow-lg flex flex-col justify-between"
         >
           <h2 className="text-xl font-semibold">{current.question}</h2>
           <div className="mt-4">
             {current.type === "rating" && (
               <div className="flex gap-4">
-                <h3>{answerValue}</h3>
-                <input
+                <ScoreInput onClick={(value) => setAnswerValue(value)} />
+                {/* <input
                   type="range"
                   min={1}
                   max={10}
                   className="w-full"
                   onChange={(e) => setAnswerValue(Number(e.target.value))}
                   value={(answerValue as number) ?? 5}
-                />
+                /> */}
                 <ConfirmButton
                   label="Confirm"
-                  onClick={() => handleNext(answerValue as number)}
+                  onClick={() => {
+                    handleNext(answerValue as number);
+                  }}
                   disabled={!answerValue}
                 />
               </div>
