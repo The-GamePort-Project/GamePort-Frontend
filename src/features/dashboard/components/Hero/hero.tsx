@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import styles from "./Hero.module.scss";
+import styles from "./hero.module.scss";
 import { IGame } from "../../../game/models/interfaces";
 import FeaturedGame from "../featuredGame/featuredGame";
 interface HeroProps {
