@@ -2,9 +2,13 @@ interface LoadingSpinnerProps {
   loading: boolean;
   error?: boolean;
   loadingMessage?: string;
+  errorMessage?: string;
 }
 export default function LoadingSpinner({
   loadingMessage = "Please hold on...",
+  errorMessage = "An error occurred. Please try again.",
+  error = false,
+  loading = false,
 }: LoadingSpinnerProps) {
   return (
     <div className="flex justify-center items-center h-screen">
@@ -12,7 +16,10 @@ export default function LoadingSpinner({
         <h2 className="text-2xl font-bold mb-4 text-yellow-600">
           Almost there...
         </h2>
-        <p className="text-yellow-800">{loadingMessage}</p>
+        {error && <p className="text-red-600">{errorMessage}</p>}
+        {!loading && !error && (
+          <p className="text-yellow-800">{loadingMessage}</p>
+        )}
       </div>
       <svg
         className="animate-spin -ml-1 mr-3 h-20 w-20 text-blue-500"

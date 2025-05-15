@@ -7,7 +7,7 @@ const Auth = () => {
     return <Navigate to="/" replace />;
   }
   return (
-    <div style={{ padding: "5%", marginTop: "20px" }}>
+    <div style={{ marginTop: "20px" }}>
       <Outlet />
     </div>
   );

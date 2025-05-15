@@ -1,6 +1,6 @@
 import { storageService } from "./StorageService";
 import { httpService } from "./HttpService";
-
+import { useAuthStore } from "../features/auth/store/useAuthStore";
 export const saveAuthTokens = (accessToken: string, refreshToken: string) => {
   storageService.setItem("token", accessToken);
   storageService.setCookie("refreshToken", refreshToken, 1);
@@ -38,5 +38,6 @@ export const logout = () => {
   clearAuthTokens();
   clearAccessToken();
   httpService.setAuthorization("");
-  window.location.href = "/login";
+  useAuthStore.getState().logout();
+  window.location.replace("/auth/login");
 };

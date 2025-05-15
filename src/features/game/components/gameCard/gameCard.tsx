@@ -5,13 +5,15 @@ import SmallCard from "../../../../components/cards/smallCard/smallCard";
 import GameCardImage from "./gameCardImage/gameCardImage";
 import GameRating from "../gameRating/gameRating";
 import { useNavigator } from "../../../../hooks/useNavigator";
+import { NavigationButton } from "../../../../components";
 interface GameCardProps {
   game: IGame;
 }
 const fallbackImage = "fallback-image.jpg";
 
 const GameCard: React.FC<GameCardProps> = ({ game }) => {
-  const { goToGame, goToGenre } = useNavigator();
+  const [ratingHovered, setRatingHovered] = React.useState(false);
+  const { goToGame, goToGenre, goToReview } = useNavigator();
   const gameTitle =
     game.title.length > 20 ? game.title.slice(0, 20) + "..." : game.title;
   return (
@@ -20,14 +22,32 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
         styles={styles}
         imageUrl={game.coverImageUrl}
         fallbackImage={fallbackImage}
+        onClick={() => goToGame(game.slug)}
       />
 
-      <h3 className={styles.cardTitle} onClick={() => goToGame(game.slug)}>
+      <h3
+        className={styles.cardTitle}
+        onClick={() => goToGame(game.slug)}
+        style={{ cursor: "pointer" }}
+      >
         {gameTitle}
       </h3>
 
       <div>
-        <GameRating rating={game.rating} showRatingNumber={false} />
+        <div
+          onMouseEnter={() => setRatingHovered(true)}
+          onMouseLeave={() => setRatingHovered(false)}
+        >
+          {ratingHovered ? (
+            <NavigationButton
+              label="Review"
+              onClick={() => goToReview(game.slug)}
+              noUnderLine
+            />
+          ) : (
+            <GameRating rating={game.rating} showRatingNumber={false} />
+          )}
+        </div>
         <div className={styles.genres}>
           {(game.genres ?? []).map((genre, index) => (
             <>

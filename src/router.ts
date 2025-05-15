@@ -14,7 +14,8 @@ import GameInfo from "./features/game/pages/gameInfo";
 import Auth from "./features/auth/Auth";
 import Users from "./features/user/Users";
 import Home from "./features/dashboard/Home";
-
+import Review from "./features/review/Review";
+import GenresPage from "./features/game/pages/genresPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -50,13 +51,27 @@ const router = createBrowserRouter([
         element: React.createElement(Games),
         children: [
           { path: routerPaths.slug, element: React.createElement(GameInfo) },
-
           {
-            path: routerPaths.slug + routerPaths.review,
+            path: routerPaths.genres,
+            element: React.createElement(GenresPage),
+          },
+          {
+            path: routerPaths.genres_base,
+            element: React.createElement(GenresPage),
+          },
+        ],
+      },
+      {
+        path: "/reviews",
+        element: React.createElement(Review),
+        children: [
+          {
+            path: routerPaths.new_review,
             element: React.createElement(NewReviewPage),
           },
         ],
       },
+
       { path: routerPaths.users, element: React.createElement(Users) },
       {
         path: "/admin/add-game",

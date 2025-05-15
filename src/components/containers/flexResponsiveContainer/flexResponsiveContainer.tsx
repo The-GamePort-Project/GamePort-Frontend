@@ -7,6 +7,10 @@ interface FlexResponsiveContainerProps {
 const FlexResponsiveContainer = ({
   children,
 }: FlexResponsiveContainerProps) => {
-  return <div className={`flex flex-col md:flex-row gap-4`}>{children}</div>;
+  return (
+    <div className={`flex flex-col md:flex-row gap-4 flex-wrap`}>
+      {children}
+    </div>
+  );
 };
 export default FlexResponsiveContainer;

@@ -1,0 +1,4 @@
+@use "../../../styles/variables/color";
+.dark {
+  background-color: color.$background-color-dark;
+}

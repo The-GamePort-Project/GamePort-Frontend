@@ -39,6 +39,24 @@ export const gqlService = {
           id
           title
           trailerUrl
+          coverImageUrl
+          genres {
+            name
+          }
+          releaseDate
+          developer
+          slug
+          rating
+        }
+      }
+    `,
+    GET_GAMES_PAGINATED_BY_GENRE: gql`
+      query games($data: GetGamesPaginatedInput!) {
+        games(data: $data) {
+          id
+          title
+          trailerUrl
+          coverImageUrl
           genres {
             name
           }
@@ -54,16 +72,20 @@ export const gqlService = {
         game(data: $data) {
           id
           title
+          rating
+          slug
           genres {
             name
           }
           releaseDate
           developer
           publisher
-          slug
-          rating
           description
           coverImageUrl
+          trailerUrl
+          platforms {
+            name
+          }
         }
       }
     `,
@@ -82,8 +104,8 @@ export const gqlService = {
       }
     `,
     GET_GAME_BY_SLUG_FOR_REVIEW: gql`
-      query game($data: GetGameInput!) {
-        game(data: $data) {
+      query getGameForReview($data: GetGameInput!) {
+        getGameForReview(data: $data) {
           id
           title
           genres {
@@ -122,6 +144,14 @@ export const gqlService = {
           slug
           rating
           coverImageUrl
+        }
+      }
+    `,
+    GET_ALL_GENRES: gql`
+      query genres {
+        genres {
+          id
+          name
         }
       }
     `,

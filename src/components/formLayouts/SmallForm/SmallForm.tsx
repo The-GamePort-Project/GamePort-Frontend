@@ -8,9 +8,7 @@ interface SmallFormProps {
 const SmallForm: React.FC<SmallFormProps> = ({ children, formTitle }) => {
   return (
     <div className={styles.smallForm}>
-      <h2 className="text-2xl font-semibold mb-[2rem]">
-        {formTitle || "Small Form"}
-      </h2>
+      <h2 className="text-2xl font-semibold mb-[2rem]">{formTitle}</h2>
       <div className={styles.childrenWrapper}>{children}</div>
     </div>
   );

@@ -4,19 +4,21 @@ import { IBaseButtonProps } from "../../../types";
 
 interface INavigationButtonProps extends Omit<IBaseButtonProps, "route"> {
   type?: "button";
+  noUnderLine?: boolean;
 }
 const NavigationButton = ({
   label,
   onClick,
   disabled = false,
   type = "button",
+  noUnderLine,
 }: INavigationButtonProps): ReactNode => {
   return (
     <button
       onClick={onClick}
       type={type}
       disabled={disabled}
-      className={styles.button}
+      className={noUnderLine ? styles.buttonNoUnderline : styles.button}
     >
       <h3>{label}</h3>
     </button>

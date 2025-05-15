@@ -22,3 +22,23 @@
   padding: 7px;
   min-width: 100px;
 }
+.buttonNoUnderline {
+  @include button-style(
+    transparent,
+    $primary-color,
+    $p-md,
+    $border-radius,
+    "Exo 2"
+  );
+  border-radius: 0%;
+  &:hover {
+    color: $text-color;
+    transition: all 0.2s ease;
+  }
+  h3 {
+    font-size: $p-xl;
+    font-weight: 600;
+  }
+  padding: 7px;
+  min-width: 100px;
+}

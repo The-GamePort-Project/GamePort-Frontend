@@ -1,0 +1,14 @@
+@import "@styles/variables";
+@import "@styles/mixins";
+
+.input {
+  @include input_style(
+    $border-color,
+    $border-radius,
+    $p-sm,
+    100%,
+    "1rem",
+    $m-sm,
+    "none"
+  );
+}

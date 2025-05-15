@@ -9,5 +9,6 @@ export const useNavigator = () => {
     goHome: () => navigate("/"),
     goBack: () => navigate(-1),
     goToGenre: (genre: string) => navigate(pageRoutes.genres(genre)),
+    goToReview: (slug: string) => navigate(pageRoutes.new_review(slug)),
   };
 };

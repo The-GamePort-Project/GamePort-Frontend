@@ -15,7 +15,6 @@ import {
   httpService,
   logout,
 } from "../Services";
-import { pageRoutes } from "../models/Constants/PageRoutes";
 const httpLink = createHttpLink({
   uri: import.meta.env.VITE_GRAPHQL_URI,
   credentials: "include",
@@ -43,8 +42,7 @@ const errorLink = onError(
         graphQLErrors.map(({ message }) => console.log(message));
       const refreshToken = getRefreshToken();
       if (!refreshToken) {
-        clearAccessToken();
-        window.location.href = pageRoutes.login;
+        logout();
         return;
       }
       return new Observable((observer) => {

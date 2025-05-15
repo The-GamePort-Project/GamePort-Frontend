@@ -5,7 +5,7 @@ const Users = () => {
   const { isLoggedIn } = useAuthStore();
 
   if (!isLoggedIn) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/auth/login" replace />;
   }
 
   return (

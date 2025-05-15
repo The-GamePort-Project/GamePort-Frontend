@@ -1,0 +1,16 @@
+@use "../../../styles/variables/color";
+@use "../../../styles/variables/typography";
+.sidebarContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+  background-color: white;
+  border: 1px solid color.$primary-color;
+  background-color: color.$background-color-light;
+  border-radius: 0.14rem;
+  color: color.$primary-color;
+  font-family: typography.$font-family-primary;
+  margin-top: 5%;
+  padding: 1rem;
+}

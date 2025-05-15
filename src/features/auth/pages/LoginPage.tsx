@@ -8,6 +8,7 @@ import { AxiosResponse } from "axios";
 import { useAuthStore } from "../store/useAuthStore";
 import { storageService } from "../../../Services";
 import { ConfirmButton } from "../../../components";
+import IconButton from "../../../components/buttons/iconButton/iconButton";
 
 type InputFieldState = {
   value: string;
@@ -73,50 +74,59 @@ const LoginPage = () => {
 
   return (
     <>
-      <form onSubmit={handleLogin}>
-        <SmallForm formTitle="Login to GamePort">
-          <div style={{ textAlign: "right", marginBottom: "0.5rem" }}>
-            <button
-              type="button"
-              onClick={() => setUseEmail(!useEmail)}
-              style={{ fontSize: "0.9rem", cursor: "pointer" }}
-            >
-              {useEmail ? "Use username instead" : "Use email instead"}
-            </button>
-          </div>
+      <div className="flex flex-col items-center justify-center h-screen">
+        <form onSubmit={handleLogin}>
+          <SmallForm formTitle="Login to GamePort">
+            <div style={{ textAlign: "right", marginBottom: "0.5rem" }}>
+              <button
+                type="button"
+                onClick={() => setUseEmail(!useEmail)}
+                style={{ fontSize: "0.9rem", cursor: "pointer" }}
+              >
+                {useEmail ? "Use username instead" : "Use email instead"}
+              </button>
+            </div>
 
-          <Input
-            value={identifier.value}
-            onChange={(e) =>
-              setIdentifier({ value: e.target.value, error: null })
-            }
-            error={identifier.error}
-            type={useEmail ? "email" : "text"}
-            placeholder={useEmail ? "Email" : "Username"}
+            <Input
+              value={identifier.value}
+              onChange={(e) =>
+                setIdentifier({ value: e.target.value, error: null })
+              }
+              error={identifier.error}
+              type={useEmail ? "email" : "text"}
+              placeholder={useEmail ? "Email" : "Username"}
+            />
+
+            <Input
+              value={password.value}
+              onChange={(e) =>
+                setPassword({ value: e.target.value, error: null })
+              }
+              error={password.error}
+              type="password"
+              placeholder="Password"
+            />
+
+            {generalError && <p style={{ color: "red" }}>{generalError}</p>}
+
+            <ConfirmButton
+              label="Login"
+              size="medium"
+              disabled={!identifier || generalError !== null}
+            />
+          </SmallForm>
+        </form>
+
+        <div style={{ textAlign: "center", marginTop: "1rem" }}>
+          <IconButton
+            label="Login with Google"
+            icon="/google-svgrepo-com.svg"
+            onClick={() => {
+              console.log("Login with Google clicked");
+              handleLoginWithGoogle();
+            }}
           />
-
-          <Input
-            value={password.value}
-            onChange={(e) =>
-              setPassword({ value: e.target.value, error: null })
-            }
-            error={password.error}
-            type="password"
-            placeholder="Password"
-          />
-
-          {generalError && <p style={{ color: "red" }}>{generalError}</p>}
-
-          <ConfirmButton
-            label="Login"
-            size="medium"
-            disabled={!identifier || generalError !== null}
-          />
-        </SmallForm>
-      </form>
-
-      <div style={{ textAlign: "center", marginTop: "1rem" }}>
-        <button onClick={handleLoginWithGoogle}>Login with Google</button>
+        </div>
       </div>
     </>
   );

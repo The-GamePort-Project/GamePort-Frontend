@@ -3,16 +3,16 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { gqlService } from "../../../Services";
 import { IGame } from "../models/interfaces";
-
+import { FlexResponsiveContainer } from "../../../components";
 const GameInfo: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   console.log("slug", slug);
 
-  // GraphQL query to fetch game details by slug
+  //TODO Fix this page
   const { data, loading, error } = useQuery<{ game: IGame }>(
     gqlService.query.GET_GAME_BY_SLUG,
     {
-      variables: { slug },
+      variables: { data: { slug } },
     }
   );
 
@@ -32,7 +32,7 @@ const GameInfo: React.FC = () => {
   }
 
   return (
-    <div className="game-info">
+    <FlexResponsiveContainer>
       <h1>{game.title}</h1>
       <img
         src={game.coverImageUrl || ""}
@@ -71,7 +71,7 @@ const GameInfo: React.FC = () => {
           {game.platforms.map((platform) => platform.name).join(", ")}
         </div>
       )}
-    </div>
+    </FlexResponsiveContainer>
   );
 };
 

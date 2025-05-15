@@ -8,3 +8,20 @@ export const useGetAllReviews = () => {
     data,
   };
 };
+export const useGetGameForReview = (slug: string) => {
+  const { loading, error, data } = useQuery(
+    gqlService.query.GET_GAME_BY_SLUG_FOR_REVIEW,
+    {
+      variables: {
+        data: {
+          slug,
+        },
+      },
+    }
+  );
+  return {
+    loading,
+    error,
+    data,
+  };
+};

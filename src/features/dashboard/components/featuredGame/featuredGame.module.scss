@@ -17,10 +17,11 @@
 }
 
 .featuredGameImage {
-  width: 60%;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
-  border-radius: 0.5rem;
-  border: 2px solid var(--color-primary);
+  border-radius: 8px;
 }
 .featuredGameSectionOne {
   display: flex;

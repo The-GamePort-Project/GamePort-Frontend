@@ -4,6 +4,7 @@ import styles from "./Header.module.scss";
 import InfoModal from "../../components/modals/infoModal/infoModal";
 import { useState } from "react";
 import { useNavigator } from "../../hooks/useNavigator";
+import { NavigationButton } from "../../components";
 interface HeaderProps {
   theme?: string;
   logout: () => void;
@@ -65,7 +66,9 @@ function Header(props: HeaderProps) {
                 ))}
               {props.isLoggedIn && (
                 <li>
-                  <button onClick={props.logout}>Logout</button>
+                  <NavigationButton onClick={props.logout} label="Logout">
+                    Logout
+                  </NavigationButton>
                 </li>
               )}
             </ul>

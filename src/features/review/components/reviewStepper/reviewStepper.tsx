@@ -4,12 +4,12 @@ import { ConfirmButton } from "../../../../components";
 import { IReviewQuestion } from "../../models/reviewQuestions";
 import ScoreInput from "../../../../components/inputs/scoreInput/scoreInput";
 import styles from "./reviewStepper.module.scss";
-
+import { useNavigator } from "../../../../hooks/useNavigator";
 interface ReviewStepperProps {
   questions: IReviewQuestion[];
   onComplete: (
     answers: Record<string, string | number | null | boolean>
-  ) => void;
+  ) => boolean;
 }
 
 const variants = {
@@ -22,6 +22,7 @@ export default function ReviewStepper({
   questions,
   onComplete,
 }: ReviewStepperProps) {
+  const { goHome } = useNavigator();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<
     Record<string, number | string | boolean | null>
@@ -38,7 +39,10 @@ export default function ReviewStepper({
       setAnswerValue(null);
     } else {
       console.log("oncomplete", answers);
-      onComplete(answers);
+      const result = onComplete(answers);
+      if (result) {
+        goHome();
+      }
     }
   };
 

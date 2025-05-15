@@ -30,7 +30,7 @@ const RegisterPage = () => {
 
   return (
     <>
-      <div className="w-md">
+      <div className="w-md mt-24">
         <RegisterForm onSubmit={handleRegister} loading={loading} />
       </div>
     </>
