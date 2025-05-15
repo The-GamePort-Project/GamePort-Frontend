@@ -1,9 +1,9 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { gqlService } from "../../../Services";
-import { IGame } from "../models/interfaces";
-import { FlexResponsiveContainer } from "../../../components";
+import { gqlService } from "../../../../Services";
+import { IGame } from "../../models/interfaces";
+import { FlexResponsiveContainer } from "../../../../components";
 const GameInfo: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   console.log("slug", slug);
@@ -32,12 +32,12 @@ const GameInfo: React.FC = () => {
   }
 
   return (
-    <FlexResponsiveContainer>
+    <FlexResponsiveContainer backgroundColor="light">
       <h1>{game.title}</h1>
       <img
         src={game.coverImageUrl || ""}
         alt={`${game.title} cover`}
-        className="game-info__image"
+        // className={styles.coverImage}
       />
       <p>
         <strong>Developer:</strong> {game.developer}

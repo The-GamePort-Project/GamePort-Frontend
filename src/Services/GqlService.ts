@@ -132,7 +132,7 @@ export const gqlService = {
       }
     `,
     SEARCH_GAMES: gql`
-      query SearchGames($data: SearchGamesInput!) {
+      query searchGames($data: SearchGamesInput!) {
         searchGames(data: $data) {
           id
           title

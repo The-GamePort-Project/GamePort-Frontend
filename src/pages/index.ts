@@ -1,1 +1,1 @@
-export * from "../features/game/pages/gameInfo";
+export * from "../features/game/pages/gameInfo/gameInfo";

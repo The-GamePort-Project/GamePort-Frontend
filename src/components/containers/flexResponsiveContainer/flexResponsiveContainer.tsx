@@ -1,14 +1,20 @@
 import React from "react";
-
+import styles from "./flexResponsiveContainer.module.scss";
 interface FlexResponsiveContainerProps {
   children: React.ReactNode;
+  backgroundColor?: "light" | "dark";
 }
 
 const FlexResponsiveContainer = ({
   children,
+  backgroundColor,
 }: FlexResponsiveContainerProps) => {
   return (
-    <div className={`flex flex-col md:flex-row gap-4 flex-wrap`}>
+    <div
+      className={`${styles.flexResponsiveContainer} ${
+        backgroundColor === "light" ? styles.light : styles.dark
+      }`}
+    >
       {children}
     </div>
   );

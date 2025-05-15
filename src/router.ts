@@ -10,7 +10,7 @@ import AdminLogin from "./features/admin/pages/adminLogin";
 import TestPage from "./pages/TestPage";
 import RegisterPage from "./features/auth/pages/RegisterPage";
 import NewReviewPage from "./features/review/pages/newReviewPage";
-import GameInfo from "./features/game/pages/gameInfo";
+import GameInfo from "./features/game/pages/gameInfo/gameInfo";
 import Auth from "./features/auth/Auth";
 import Users from "./features/user/Users";
 import Home from "./features/dashboard/Home";

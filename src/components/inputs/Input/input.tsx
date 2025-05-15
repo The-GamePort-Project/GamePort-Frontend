@@ -11,6 +11,8 @@ interface InputProps {
   name?: string;
   value: string | number | readonly string[] | undefined;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
 }
 const Input = ({
   onChange,
@@ -21,6 +23,8 @@ const Input = ({
   placeholder = "Enter your name",
   required = false,
   name,
+  onBlur,
+  onFocus,
 }: InputProps) => {
   return (
     <>
@@ -28,6 +32,8 @@ const Input = ({
         {error && <p className={styles.errorMessage}>{error}</p>}
       </div>
       <input
+        onFocus={onFocus}
+        onBlur={onBlur}
         name={name}
         className={`${styles.input} border rounded-md w-full ${className}`}
         type={type}

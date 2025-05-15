@@ -50,8 +50,7 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
         </div>
         <div className={styles.genres}>
           {(game.genres ?? []).map((genre, index) => (
-            <>
-              {" "}
+            <React.Fragment key={genre.id || genre.name}>
               <span
                 key={genre.id || genre.name}
                 className={styles.genre}
@@ -60,7 +59,7 @@ const GameCard: React.FC<GameCardProps> = ({ game }) => {
                 {genre.name}
               </span>
               {index < (game.genres?.length ?? 0) - 1 && ", "}
-            </>
+            </React.Fragment>
           ))}
         </div>
       </div>

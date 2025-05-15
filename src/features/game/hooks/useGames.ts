@@ -48,9 +48,10 @@ export const useGetHighestRatedGame = () => {
 };
 
 export const useGetGenres = () => {
-  const { loading, error, data } = useQuery(gqlService.query.GET_ALL_GENRES);
+  const { loading, error, data } = useQuery(gqlService.query.GET_ALL_GENRES, {
+    fetchPolicy: "cache-first",
+  });
   const genres = data?.genres || [];
-  console.log("genres", genres);
   return {
     loading,
     error,
@@ -62,8 +63,8 @@ export const useSearchGames = () => {
     gqlService.query.SEARCH_GAMES,
     { variables: { data: { searchTerm: "" } } }
   );
-
-  return { searchGames, loading, error, data };
+  const searchData = data?.searchGames || [];
+  return { searchGames, loading, error, searchData };
 };
 export const useGetGamesByGenre = (genreName: string) => {
   const { loading, error, data } = useQuery(

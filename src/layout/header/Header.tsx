@@ -39,7 +39,7 @@ function Header(props: HeaderProps) {
                 window.location.href = "/";
               }}
             />
-            The Gameport
+            <h1 className={styles.title}>The Gameport</h1>
           </div>
         </section>
         <section id={"middle-section-navigation"} className={styles.headerMenu}>
@@ -66,9 +66,7 @@ function Header(props: HeaderProps) {
                 ))}
               {props.isLoggedIn && (
                 <li>
-                  <NavigationButton onClick={props.logout} label="Logout">
-                    Logout
-                  </NavigationButton>
+                  <NavigationButton onClick={props.logout} label="Logout" />
                 </li>
               )}
             </ul>
