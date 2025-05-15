@@ -10,7 +10,6 @@ import { onError } from "@apollo/client/link/error";
 import {
   getAccessToken,
   setAccessToken,
-  clearAccessToken,
   getRefreshToken,
   httpService,
   logout,
